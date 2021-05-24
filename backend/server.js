@@ -1,5 +1,6 @@
 import path from 'path'
 import express from 'express'
+// const bodyParser= require('body-parser')
 import dotenv from 'dotenv'
 import helmet from 'helmet'
 import colors from 'colors'
@@ -7,19 +8,53 @@ import morgan from 'morgan'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 import userRoutes from './routes/userRoutes.js'
+import mongoose from 'mongoose'
+
+
 
 dotenv.config()
 
 connectDB()
 
-const app = express()
+const msgSchema = new mongoose.Schema({
+  text: String
+})
 
+const fetchMsgs =(req, res)=>{ 
+  // console.log('msgs ',msgs)
+  // eslint-disable-next-line 
+  const Msg = mongoose.model('Msg', msgSchema)
+  Msg.find((err,msgs)=>
+
+  // console.log('msgs ',msgs)
+  res.send(msgs)
+
+  )
+}
+
+const saveMsg =(req)=>{ 
+  
+  const Msg = mongoose.model('Msg', msgSchema)
+  
+  const Msg01 = new Msg(req.body) 
+
+  Msg01.save()
+}
+
+
+const app = express()
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
-
 app.use(express.json())
 app.use(helmet())
+
+
+
+app.get('/api/msgs/', fetchMsgs)
+
+app.post('/api/appts/', )
+app.post('/api/msgs/', saveMsg)
 
 app.use('/api/users', userRoutes)
 
@@ -42,7 +77,13 @@ app.use(notFound)
 
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 5000
+// const PORT = process.env.PORT || 4000
+
+
+
+const PORT = 4000
+
+
 
 app.listen(
   PORT,

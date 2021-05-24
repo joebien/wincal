@@ -1,17 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
-
-import '../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js'
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import './index.css'
-
-import store from './redux/store'
+import App from './App'
+import store from './app/store'
 import { Provider } from 'react-redux'
 
+import { fetchUsers } from './features/users/usersSlice'
+
+
+
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
   document.getElementById('root')
 )

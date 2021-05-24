@@ -41,7 +41,8 @@ console.log('pickedDay ',pickedDay)
             
            {
                 time: pickedDay.getTime(),
-                apptTxt: apptTxt
+                apptTxt: apptTxt,
+                test:'test'
 
             }
             

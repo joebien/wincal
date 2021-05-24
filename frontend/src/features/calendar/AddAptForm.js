@@ -31,7 +31,7 @@ export const AddAptForm=(props)=>{
     const pickedDay = new Date (props.clickedDay)
     pickedDay.setHours(hour ,minute)
    
-console.log('pickedDay ',pickedDay)
+    console.log('pickedDay ',pickedDay)
 
 
     const saveEntry = async()=>{ console.log('save entry fired ')
@@ -42,7 +42,8 @@ console.log('pickedDay ',pickedDay)
            {
                 time: pickedDay.getTime(),
                 apptTxt: apptTxt,
-                test:'test'
+                test:'test',
+                rest:'rest'
 
             }
             

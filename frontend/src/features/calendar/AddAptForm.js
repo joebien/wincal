@@ -43,8 +43,7 @@ export const AddAptForm=(props)=>{
                 time: pickedDay.getTime(),
                 apptTxt: apptTxt,
                 test:'test',
-                rest:'rest',
-                rest2:'rest2'
+               
             }         
         )) 
     }

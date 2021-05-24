@@ -44,11 +44,8 @@ export const AddAptForm=(props)=>{
                 apptTxt: apptTxt,
                 test:'test',
                 rest:'rest'
-
-            }
-            
-            ))
-      
+            }         
+        )) 
     }
 
     const testTime = new Date()

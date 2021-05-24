@@ -19,13 +19,13 @@ export const CalendarComp=() => {
  
   return ( 
      <div>
-      <Calendar
+      {/* <Calendar
         tileClassName = {
           ({ date, view }) => { 
             return view === 'month' && date.getDay() === 4 ? 'saturday' : null}
         }
         onClickDay={date=>onClickDay(date)}
-      />
+      /> */}
     
       <AddAptForm clickedDay={clickedDay}/>
 

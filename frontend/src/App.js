@@ -19,7 +19,7 @@ import { NotificationsList } from './features/notifications/NotificationsList'
 function App() {
   return (
     <Router>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="App">
         <Switch>
           <Route

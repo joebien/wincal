@@ -9,6 +9,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 import userRoutes from './routes/userRoutes.js'
 import mongoose from 'mongoose'
+import c from 'config'
 
 
 
@@ -20,17 +21,25 @@ const msgSchema = new mongoose.Schema({
   text: String
 })
 
+const apptSchema = new mongoose.Schema({
+  date: String,
+  time: String,
+  apptTxt: String,
+ 
+})
+
 const fetchMsgs =(req, res)=>{ 
-  // console.log('msgs ',msgs)
-  // eslint-disable-next-line 
+ 
   const Msg = mongoose.model('Msg', msgSchema)
   Msg.find((err,msgs)=>
 
-  // console.log('msgs ',msgs)
+ 
   res.send(msgs)
 
   )
 }
+
+
 
 const saveMsg =(req)=>{ 
   
@@ -41,6 +50,32 @@ const saveMsg =(req)=>{
   Msg01.save()
 }
 
+const saveAppt =(req)=>{ 
+  
+  const Appt = mongoose.model('Appt', apptSchema )
+  
+  const Appt01 = new Appt(req.body) 
+
+  console.log('Appt01 ',Appt01)
+
+  Appt01.save()
+}
+
+const fetchAppts =(req, res)=>{ 
+  console.log('req ',Object.keys(req),`
+  req.query ${JSON.stringify(req.query)}`
+  )
+  
+  const Appt = mongoose.model('Appt', apptSchema)
+
+  Appt.find(req.query, (err,appts)=> 
+
+  //Appt.find({"time":"1621656000000"}, (err,appts)=> 
+  
+  res.send(appts)
+
+  )
+}
 
 const app = express()
 if (process.env.NODE_ENV === 'development') {
@@ -49,12 +84,14 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json())
 app.use(helmet())
 
+app.get('/api/appts/', fetchAppts)
 
+app.post('/api/appts/', saveAppt)
+//////////////////////////////////////////////////////////////////////////////
 
+app.post('/api/msgs/', saveMsg)
 app.get('/api/msgs/', fetchMsgs)
 
-app.post('/api/appts/', )
-app.post('/api/msgs/', saveMsg)
 
 app.use('/api/users', userRoutes)
 
@@ -79,11 +116,7 @@ app.use(errorHandler)
 
 // const PORT = process.env.PORT || 4000
 
-
-
 const PORT = 4000
-
-
 
 app.listen(
   PORT,

@@ -17,7 +17,36 @@ code {
 }
 
 p {
+  border: rgb(195, 237, 240) 1px solid;
   font-size: 1.1rem;
+  color: rgb(132, 186, 216);
+  height: 1px;
+
+}
+
+button {
+  background: rgb(248, 236, 236);
+  
+}
+
+textarea{
+  height: 10px;
+}
+
+.helpertext{
+  position: absolute;
+  bottom: 24px;
+  left: 105px;
+  white-space: nowrap;
+  border: none;
+  
+}
+
+
+
+.textField {
+color: red;
+border: red solid;
 }
 
 /* Navbar */
@@ -43,7 +72,7 @@ nav a:active {
   padding: 0.25rem 1.5rem;
   border-radius: 4px;
   color: white !important;
-  background: #481499;
+  background: #d0c1e7;
 }
 
 nav a:first-of-type {
@@ -130,11 +159,11 @@ section h1 {
 p.post-content {
   margin-top: 10px;
 }
-
+/* 
 .button {
   display: inline-block;
-  background: #1976d2;
-  color: white;
+  background: #eef4fa;
+  color: rgb(14, 8, 8);
   border-radius: 4px;
   font-weight: 700;
   padding: 0.75rem 1.5rem;
@@ -151,7 +180,7 @@ button.reaction-button {
   margin: 5px 6px 10px;
   border-radius: 4px;
   white-space: nowrap;
-}
+} */
 
 /* https://projects.lukehaas.me/css-loaders/ , Loader #3 */
 .loader {

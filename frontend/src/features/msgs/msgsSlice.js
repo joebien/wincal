@@ -60,14 +60,14 @@ const msgsSlice = createSlice({
     [fetchMsgs.pending]: (state, action) => {console.log('pending ',action)
       state.status = 'loading'
     },
-      [fetchMsgs.fulfilled]: (state, action) => {
+    
+    [fetchMsgs.fulfilled]: (state, action) => {
       
       console.log('fulfilled ',action.payload)
       state.status = 'succeeded'
       state.msgs = action.payload
-       
-      
     },
+
     [fetchMsgs.rejected]: (state, action) => {
       state.status = 'failed'
       state.error = action.error.message

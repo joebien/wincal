@@ -1,107 +1,101 @@
-import React, {useState, useEffect}from 'react'
-import { Grid } from '@material-ui/core'
-import { useSelector, useDispatch  } from 'react-redux'
-import {postNewAppt} from './calSlice'
+import React, { useState, useEffect } from 'react'
+import { Grid, TextField, FormControl } from '@material-ui/core'
+import { useSelector, useDispatch } from 'react-redux'
+import { postNewAppt } from './calSlice'
+import { fetchAppts }from './calSlice'
 
 
 
 
-export const AddAptForm=(props)=>{ 
+export const AddAptForm = (props) => {
 
+    const dispatch = useDispatch()
 
+   
+    // pickedDate.setHours(0,0,0)
+    // console.log('pickedDate2 ',pickedDate)
+
+    const [pickedDate, setpickedDate] = useState(0)
+    const [pickedTime, setpickedTime] = useState()
+    const [hour, setHour] = useState(0)
+    const [minute, setMinute] = useState(0)
+    const [apptTxt, setApptTxt] = useState('')
+    const [time, settime] = useState()
+    const [helpertext, sethelpertext]=useState('')
+
+    const appts = useSelector(state => state.appts.appts)
+
+    //console.log('pickedDate ',pickedDate) 
+    
+
+    const handleChange=(hours)=>{
+        sethelpertext('')
+
+        const hour = hours.slice(0,2)
+        const minute = hours.slice(3,5)
+
+        setpickedTime(new Date(pickedDate).setHours(hour, minute)
+            )
+
+    }
+
+    const handleTxtChange = e => {
+        setApptTxt(e.target.value)
+        sethelpertext('')
+    }
 
     useEffect(() => {
-        // pickedDay.setHours( 0,0,0 )
+
+        setpickedDate( new Date(props.clickedDay).getTime() )
+
+    }, [props.clickedDay])
+
+/////////////////////////////////////////////////////////////////////////////////
     
-    }, [])
 
-    // pickedDay.setHours(0,0,0)
-
-    // console.log('pickedDay2 ',pickedDay)
-
-   
- 
-    const[hour, setHour] = useState(0)
-    const[minute, setMinute] = useState(0)
-    const[apptTxt, setApptTxt] = useState('the appointment text')
-    const dispatch = useDispatch()
-    const days = useSelector(state=>state)
-
-
-    const pickedDay = new Date (props.clickedDay)
-    pickedDay.setHours(hour ,minute)
-   
-    console.log('pickedDay ',pickedDay)
-
-
-    const saveEntry = async()=>{ console.log('save entry fired ')
+const saveEntry = async () => { 
+      
+    //    if (!pickedTime) sethelpertext('pick a time')
+    //    if (!apptTxt) sethelpertext('enter appt info')
     
-    //Make picked day timestamp
-        dispatch(postNewAppt(
-            
-           {
-                time: pickedDay.getTime(),
+        await dispatch(postNewAppt(
+            {
+                time: pickedTime,
                 apptTxt: apptTxt,
-                test:'test',
-                rest:'rest',
-                rest2:'rest2'
-            }         
-        )) 
+                date: pickedDate
+            }
+        )).then(dispatch(fetchAppts(pickedDate)))
+        
     }
+ console.log('apptTxt ',apptTxt)
 
-    const testTime = new Date()
-    // console.log('testTime ',testTime)
-    testTime.setHours( hour,minute,0,0 )
-    // console.log('testTime2 ',testTime)
+    return (
+        //    appts && appts.length > 0 ? 
+        <Grid container style={{ border: 'pink solid 1px' }}>
 
-    return(
-    <Grid container style={{border: 'pink solid 1px'}}>
-        <Grid name='time' item xs={3}> <SelectHour hour={hour} setHour={setHour}/> </Grid> 
-        <Grid name='time' item xs={3}> <SelectMinute minute={minute} setMinute={setMinute}/> </Grid> 
-        <Grid name='details' item xs={6}>
-            <textarea onChange={e=>setApptTxt(e.target.value)} value={apptTxt}/>
+        <Grid name='details' item xs={12}>  
+       
+            <TextField 
+                FormHelperTextProps={{className:'helpertext'}}
+                helperText={helpertext}
+                id="time"
+                type="time"
+                // defaultValue="07:30"
+                className={'textField'}
+                onChange={(e)=>handleChange(e.target.value)}
+            />
+       
+            
+        
+            </Grid>
+
+        <Grid name='details' item xs={12}>
+            <textarea onChange={(e)=>handleTxtChange(e)} value={apptTxt} />
         </Grid>
         <Grid name='save appt' item xs={12} onClick={saveEntry}>Save Entry</Grid>
-    </Grid>
+        </Grid>
     )
 }
 
 
 
-const SelectHour=({hour,setHour})=>{
-    const onHourChange=e=>setHour((e.target.value))
-  
-    
-    const hours=[]
-    for(let h=1;h<25;h++){
-        hours.push( <option key={h} value={h}>{h}</option>)
-    }
-
-    return(
-        <form style={{border:'solid'}}>
-            <select id="postAuthor" value={hour} onChange={onHourChange}>
-                <option value=""></option>
-                {hours}
-            </select>   
-        </form>
-    )
-}
-
-const SelectMinute=({minute, setMinute})=>{
-
-    const onMinuteChange=e=>setMinute((e.target.value))
-
-    const minutes=[]
-    for(let h=0;h<46;h+=15){
-        minutes.push( <option key={h} value={h}>{h}</option>)
-    }
-
-    return(
-        <form style={{border:'solid'}}>
-            <select id="postAuthor" value={minute} onChange={onMinuteChange}>
-                <option value=""></option>
-                {minutes}
-            </select>   
-        </form>
-    )
-}

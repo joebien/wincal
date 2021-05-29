@@ -17,7 +17,7 @@ const[apptsS,setapptsS]=useState()
 
 let appts = useSelector(state=>state.appts.appts) || []
 
-
+console.log('test git')
 
 ///////////////////////////////////////////////////////
     const apptsL = appts.map(appt => {

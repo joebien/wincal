@@ -7,21 +7,35 @@ import { DayEvents } from './DayEvents';
 import { fetchAppts }from './calSlice'
 // import { Button } from '@material-ui/core'
 
-
+import {deleteAppt} from './calSlice'
 
 
 
 export const CalendarComp=() => {
   const dispatch = useDispatch()
+
   const [clickedDay, setclickedDay] = useState();
   const [addform, setaddform] = useState()
-
+  
+ 
+        // dispatch(deleteAppt(id))
+    
+    
 
   const onClickDay= date=>{   
     setclickedDay(date)
     const res = dispatch(fetchAppts(date))  
   }
    
+  const deleteOneAppt = async (id)=> {
+    await dispatch(deleteAppt(id)
+    ).then(dispatch(fetchAppts(clickedDay)))
+  }
+
+  const deleteOneAppt = async (id)=> { console.log('deleteOneAppt')
+    // await dispatch(deleteAppt(id)
+    // ).then(dispatch(fetchAppts(clickedDay)))
+  }
 
   return (
     <div>
@@ -42,9 +56,10 @@ export const CalendarComp=() => {
       <AddAptForm clickedDay={clickedDay}/>
     {/* } */}
 
-      <DayEvents/>
+      <DayEvents deleteOneAppt={deleteOneAppt}/>
 
-    </div>)
+    </div>
+  )
   
   
 }

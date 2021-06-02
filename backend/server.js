@@ -22,11 +22,28 @@ const msgSchema = new mongoose.Schema({
 })
 
 const apptSchema = new mongoose.Schema({
+  _id: String,
   date: String,
   time: String,
   apptTxt: String,
  
 })
+
+const deleteAppt = (req)=>{ console.log('deleteAppt.query ',req.query._id )
+
+
+  const Appt = mongoose.model('Appt', apptSchema)
+
+  Appt.findByIdAndDelete(req.query._id 
+  , (res)=> console.log('deleteRes',res))
+
+
+  
+
+
+}
+
+
 
 const fetchMsgs =(req, res)=>{ 
  
@@ -45,6 +62,7 @@ const saveMsg =(req)=>{
   
   const Msg = mongoose.model('Msg', msgSchema)
   
+  
   const Msg01 = new Msg(req.body) 
 
   Msg01.save()
@@ -56,14 +74,20 @@ const saveAppt =(req)=>{
   
   const Appt01 = new Appt(req.body) 
 
+  const id = mongoose.Types.ObjectId();
+
+  Appt01._id = id
+
   console.log('Appt01 ',Appt01)
 
   Appt01.save()
 }
 
+
+
 const fetchAppts =(req, res)=>{ 
-  console.log('req ',Object.keys(req),`
-  req.query ${JSON.stringify(req.query)}`
+  console.log(`
+  fetchAppts.query ${JSON.stringify(req.query)}`
   )
   
   const Appt = mongoose.model('Appt', apptSchema)
@@ -75,7 +99,9 @@ const fetchAppts =(req, res)=>{
   res.send(appts)
 
   )
-}
+
+
+
 
 const app = express()
 if (process.env.NODE_ENV === 'development') {
@@ -91,6 +117,9 @@ app.post('/api/appts/', saveAppt)
 
 app.post('/api/msgs/', saveMsg)
 app.get('/api/msgs/', fetchMsgs)
+
+app.delete('/api/delappt', deleteAppt)
+
 
 
 app.use('/api/users', userRoutes)

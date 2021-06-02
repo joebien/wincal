@@ -7,27 +7,17 @@ import axios from 'axios'
 
 
 const initialState = {
-
   status: 'idle',
   error: null,
 }
 
-
-
-
 export const postNewAppt = createAsyncThunk(
   'cal/postNewAppt', async (initialPost) => {
- 
-    
  
   const response = await axios.post('/api/appts/', initialPost )
 })
 
 export const fetchAppts = createAsyncThunk('cal/fetchAppts', async (date) => {
-  
-console.log('date ',date)
- 
-  
 
   const response = await axios.get('/api/appts/', { params: { date: date } })
 
@@ -36,6 +26,20 @@ console.log('date ',date)
   return response.data
 
 })
+
+//////////////////////////////////////////////////////////////
+
+export const deleteAppt = createAsyncThunk('cal/deleteAppt', async (itemId) => {
+  
+    const response = await axios.delete('api/delappt', { params: { _id: itemId } })
+  
+      console.log('response ',response)
+  
+    return response.data
+  
+  })
+
+
 
 
 

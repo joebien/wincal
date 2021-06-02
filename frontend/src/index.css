@@ -26,6 +26,11 @@ p {
 
 button {
   background: rgb(248, 236, 236);
+  padding: 1px;
+  font-size: .9em;
+  border: none;
+  color: rgb(181, 210, 211);
+  margin: 0;
   
 }
 
@@ -40,6 +45,10 @@ textarea{
   white-space: nowrap;
   border: none;
   
+}
+
+.AppointmentRow{
+  font-size: 1em;
 }
 
 

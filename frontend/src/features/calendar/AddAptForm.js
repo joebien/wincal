@@ -25,8 +25,8 @@ export const AddAptForm = (props) => {
 
     const appts = useSelector(state => state.appts.appts)
 
-    //console.log('pickedDate ',pickedDate) 
-    
+    console.log('pickedDate ',pickedDate) 
+
 
     const handleChange=(hours)=>{
         sethelpertext('')
@@ -67,7 +67,7 @@ const saveEntry = async () => {
         )).then(dispatch(fetchAppts(pickedDate)))
         
     }
- console.log('apptTxt ',apptTxt)
+ 
 
     return (
         //    appts && appts.length > 0 ? 

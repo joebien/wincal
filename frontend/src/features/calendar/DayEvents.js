@@ -7,25 +7,15 @@ import { useSelector, useDispatch } from 'react-redux'
 import { AddAptForm } from './AddAptForm.js'
 
 
+export const DayEvents=({deleteOneAppt, editOneAppt})=>{ 
 
-
-export const DayEvents=(props)=>{ 
+    let appts = useSelector(state=>state.appts.appts) || []
     
- 
-
-const[apptsS,setapptsS]=useState()
-
-let appts = useSelector(state=>state.appts.appts) || []
-
-console.log('test git')
-
-///////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////
     const apptsL = appts.map(appt => {
-
     const dateNmbr = new Date(Number(appt.date)).getDate()
     const timeNmbr = new Date(Number(appt.time)).getHours()
     const minuteNmbr = new Date(Number(appt.time)).getMinutes()
-
     const date = {
 
         dateNmbr : new Date(Number(appt.date)).getDate(),
@@ -34,53 +24,43 @@ console.log('test git')
 
     }
 
-    
-
-   
     return ( 
         // <AppointmentRow dateNmbr={dateNmbr} timeNmbr ={timeNmbr} minuteNmbr = {minuteNmbr} apptTxt={appt.apptTxt}/>
-        <AppointmentRow {...date} apptTxt={appt.apptTxt}/>
-
+        <AppointmentRow deleteOneAppt={deleteOneAppt, editOneAppt} 
+        date={date} 
+        id={appt._id} 
+        apptTxt={appt.apptTxt}/>
         )
-    
     })
-     
-
-
-useEffect(() => {
-
-    setapptsS(apptsL)
-  
-
-}, [])
- 
 
    return(
     <section className='hourstable'>
         Days events
-
         {apptsL}
-
     </section> 
    )  
 } 
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const AppointmentRow = ({dateNmbr, timeNmbr, minuteNmbr, apptTxt}) =>{
 
-    const dispatch = useDispatch()
-   
-const deleteAppt = ()=>{
-    dispatch(deleteAppt())
-}
+
+const AppointmentRow = (props) =>{
+
+    const {dateNmbr, timeNmbr, minuteNmbr}=props.date
+    const{apptTxt, id, deleteOneAppt, editOneAppt} = props
+console.log('');
+
     return (
-        <section> 
-                <p> {dateNmbr} * {timeNmbr}:{minuteNmbr} * {apptTxt} * <button onClick={deleteAppt}>del</button></p>
-        </section>
-      
+       
+        <p className='AppointmentRow' > 
+            {dateNmbr} * {timeNmbr}:{minuteNmbr} * {apptTxt} 
+            <button onClick={()=>deleteOneAppt(id)}>del</button>
+            <button onClick={()=>editOneAppt(id)}>edit</button>
+        </p>
+       
     ) 
 }
+l
 
 const to12Time = num => {
     let time = `00${num > 12 ? num - 12: num}`.slice(-2)
@@ -88,6 +68,10 @@ const to12Time = num => {
     time = time == 0 ? 12 : time
     return  `${time}${num < 12 ? 'am':'pm'}`
 } 
+
+
+
+
 
     
     

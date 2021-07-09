@@ -6,10 +6,7 @@ import {
 import { client } from '../../api/client'
 
 const usersAdapter = createEntityAdapter()
-
 const initialState = usersAdapter.getInitialState()
-
-console.log('initialState  ',initialState )
 
 export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
   const response = await client.get('/fakeApi/users')

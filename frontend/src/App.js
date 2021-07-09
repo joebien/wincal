@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom'
 
 import { Navbar } from './app/Navbar'
+import Nav from './app/Nav.js'
+import DropMenu from './app/DropMenu.js'
 
 import { MsgsList } from './features/msgs/MsgsList'
 import { AddMsgForm } from './features/msgs/AddMsgForm'
@@ -16,10 +18,14 @@ import { UsersList } from './features/users/UsersList'
 import { UserPage } from './features/users/UserPage'
 import { NotificationsList } from './features/notifications/NotificationsList'
 
+import {LessTest} from './app/LessTest.js'
+
 function App() {
   return (
     <Router>
       {/* <Navbar /> */}
+      {/* <Nav/> */}
+      <DropMenu/>
       <div className="App">
         <Switch>
           <Route
@@ -33,7 +39,7 @@ function App() {
               </React.Fragment>
             )}
           />
-       <Route exact path="/users" component={UsersList} />
+          <Route exact path="/lessTest" component={LessTest} />
           <Route exact path="/users/:userId" component={UserPage} />
           <Route exact path="/notifications" component={NotificationsList} />
           <Redirect to="/" />

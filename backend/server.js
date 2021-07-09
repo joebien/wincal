@@ -21,42 +21,13 @@ const msgSchema = new mongoose.Schema({
   text: String
 })
 
-const apptSchema = new mongoose.Schema({
-  _id: String,
-  date: String,
-  time: String,
-  apptTxt: String,
- 
-})
-
-const deleteAppt = (req)=>{ console.log('deleteAppt.query ',req.query._id )
-
-
-  const Appt = mongoose.model('Appt', apptSchema)
-
-  Appt.findByIdAndDelete(req.query._id 
-  , (res)=> console.log('deleteRes',res))
-
-
-  
-
-
-}
-
-
-
 const fetchMsgs =(req, res)=>{ 
- 
   const Msg = mongoose.model('Msg', msgSchema)
   Msg.find((err,msgs)=>
 
- 
   res.send(msgs)
-
   )
 }
-
-
 
 const saveMsg =(req)=>{ 
   
@@ -68,39 +39,74 @@ const saveMsg =(req)=>{
   Msg01.save()
 }
 
-const saveAppt =(req)=>{ 
-  
-  const Appt = mongoose.model('Appt', apptSchema )
-  
-  const Appt01 = new Appt(req.body) 
+const apptSchema = new mongoose.Schema({
+  _id: String,
+  date: String,
+  time: String,
+  apptTxt: String,
+  hours: String,
+  month: String,
+  year: String
+})
 
+const deleteAppt = (req, res)=>{ console.log('deleteAppt.query ',req.query._id )
+  const Appt = mongoose.model('Appt', apptSchema)
+  Appt.findByIdAndDelete(req.query._id , (res)=> console.log('deleteRes',res))
+
+  res.send(req.query._id)
+
+}
+
+const saveAppt =(req, res)=>{ 
+  const Appt = mongoose.model('Appt', apptSchema )
   const id = mongoose.Types.ObjectId();
+  
+
+  const Appt01 = new Appt(req.body) 
 
   Appt01._id = id
 
-  console.log('Appt01 ',Appt01)
-
   Appt01.save()
+
+  res.json(Appt01)
+
 }
 
 
 
 const fetchAppts =(req, res)=>{ 
-  console.log(`
-  fetchAppts.query ${JSON.stringify(req.query)}`
-  )
-  
+
   const Appt = mongoose.model('Appt', apptSchema)
 
   Appt.find(req.query, (err,appts)=> 
 
-  //Appt.find({"time":"1621656000000"}, (err,appts)=> 
+
   
   res.send(appts)
 
-  )
+  )}
 
 
+
+
+///////////////////////////////////////////////////////////////////
+  const editAppt = async (req, res)=>{ 
+    
+    
+    const appt = req.body
+  
+    const query = {_id:appt._id}
+    const reqnewData = {apptTxt:appt.apptTxt, time:appt.time, hours:appt.hours}
+
+    const Appt = mongoose.model('Appt', apptSchema )
+ 
+  ////////////////////////////////////////////////////////////////////////
+    
+    let doc = await Appt.findOneAndUpdate(query, reqnewData, {new:true})
+    console.log('doc',doc)
+    res.send(doc)
+  
+  }
 
 
 const app = express()
@@ -115,10 +121,23 @@ app.get('/api/appts/', fetchAppts)
 app.post('/api/appts/', saveAppt)
 //////////////////////////////////////////////////////////////////////////////
 
+app.delete('/api/delappt', deleteAppt)
+
+app.put('/api/appts', editAppt)
+
+
+
+
+
+
+
+
+
+
 app.post('/api/msgs/', saveMsg)
 app.get('/api/msgs/', fetchMsgs)
 
-app.delete('/api/delappt', deleteAppt)
+
 
 
 
@@ -153,3 +172,4 @@ app.listen(
     `Server running ${process.env.NODE_ENV} mode on post ${PORT}`.yellow.bold
   )
 )
+

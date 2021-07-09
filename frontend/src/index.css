@@ -1,3 +1,6 @@
+
+
+
 :root {
   --redux-color: #764abc;
 }
@@ -25,17 +28,49 @@ p {
 }
 
 button {
-  background: rgb(248, 236, 236);
+  background: unset !important;
+  background-color: none;
   padding: 1px;
   font-size: .9em;
-  border: none;
+  border: none !important;
   color: rgb(181, 210, 211);
   margin: 0;
+
   
+}
+
+button:active{
+  background: rgb(248, 236, 236) !important;
+  background-color: rgb(248, 236, 236) !important;
+  border: white;
+}
+
+button:focus{
+  background: rgb(233, 218, 218) !important;
+  background-color: none !important;
+}
+
+.testBtn{
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;   
+}
+
+.testBtn:active{
+  /* background: red !important; */
+  background-color: transparent !important;
+  border: white;
 }
 
 textarea{
   height: 10px;
+}
+
+.gridContainer{
+  padding-top: 5%;
+  /* border: rgb(0, 102, 255) solid 4px; */
 }
 
 .helpertext{
@@ -44,14 +79,20 @@ textarea{
   left: 105px;
   white-space: nowrap;
   border: none;
-  
 }
 
 .AppointmentRow{
   font-size: 1em;
 }
 
+.editAptForm{
+  background:rgb(223, 232, 236);
+  border: rgb(242, 118, 151) 1px solid;
+  position: absolute;
+  bottom:4%;
+  z-index:3;
 
+}
 
 .textField {
 color: red;
@@ -89,7 +130,7 @@ nav a:first-of-type {
 }
 
 nav a:hover {
-  color: white;
+  color: rgb(48, 106, 169);
   background: #926bcf;
 }
 

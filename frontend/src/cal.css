@@ -1,0 +1,203 @@
+@import url(https://fonts.googleapis.com/css2?family=Viaoda+Libre&display=swap);
+
+
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Viaoda+Libre&display=swap);
+
+
+.react-calendar {
+  width: 350px;
+  max-width: 100%;
+  background: white;
+  border: 1px solid #a0a096;
+  line-height: 1.125em;
+  color: black;
+  font-family: 'Viaoda Libre', cursive;
+}
+
+.react-calendar *:before,
+.react-calendar *:after {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.react-calendar__navigation {
+  height: 44px;
+  margin-bottom: .3em;
+}
+
+.react-calendar__navigation__label{
+  background: rgb(105, 149, 173)!important; 
+}
+
+.react-calendar__navigation button {
+  min-width: 44px;
+  background: red
+}
+
+.react-calendar__navigation__arrow {
+  background: #97b4d3!important;
+}
+
+/* .react-calendar__navigation button:enabled:hover, */
+.react-calendar__navigation button:enabled:focus {
+  background-color: #7ea1e2 !important;
+  color: rgb(182, 234, 235);
+}
+.react-calendar__navigation button[disabled] {
+  background-color: #f0f0f0;
+}
+
+.react-calendar__month-view__weekdays {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 0.85em;
+  color: rgb(37, 47, 56);
+  margin-bottom: .7em;
+}
+
+.react-calendar__tile {
+  max-width: 100%;
+  text-align: center;
+  padding: 0.75em 0.5em;
+  background: none;
+  /* font-family: 'Viaoda Libre', cursive; */
+  font-family: 'Montserrat', sans-serif;
+  /* font-weight: lighter; */
+}
+
+
+.popout {
+  background: rgb(188, 206, 218);
+  position: absolute;
+  z-index: 22;
+  width: 55px!important;
+  height: 85px;
+  font-size: 2em;
+  
+ 
+  border-radius: 7px;
+  box-shadow: 2px 4px 5px  rgb(111, 106, 70);
+  color : black;
+
+  animation-name: popout;
+  animation-duration: .3s;
+  animation-fill-mode: forwards; 
+ transform:scale(0)
+  
+
+}
+
+.monthItem{
+  height: 10px;
+  font-size: .5em;
+
+}
+
+.dateNmbrItem{
+  /* border: red dotted 1px; */
+  height: 60px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.cell{
+  /* border: black solid 1px; */
+  text-align: center;
+}
+
+.apptAlert{
+  border: red solid 1px;
+}
+
+
+
+/* .dateNmbr{
+  position: absolute;
+
+  top:13px;
+  border: rgb(30, 255, 0) dotted 1px;
+} */
+
+
+@keyframes popout {
+  from {transform:scale(.1)}
+  to {transform:scale(1)}
+}
+
+button {
+  color: black!important;
+}
+/* 
+button:hover {
+  background:none !important;
+  color: black!important;
+  outline: none!important;
+  border: none!important;
+  -webkit-tap-highlight-color: transparent!important;
+} */
+
+button:active{
+  -webkit-tap-highlight-color: transparent!important;
+  background: rgb(169, 179, 187)!important;
+  animation-delay: .1s;
+  animation-name: popout;
+  animation-duration: .3s;
+  animation-fill-mode: forwards; 
+}
+  
+button:focus {    
+  background:none !important;
+}  
+
+.addBtnItem{
+  font-size: .4em;
+  display:flex;
+  justify-content: flex-end;
+}
+
+abbr{
+  text-decoration: none !important;
+}
+
+.calItem{
+  border:solid red;
+  /* display:flex;
+  justify-content: center; */
+}
+
+.popoutitem{
+  /* display:flex;
+  justify-content: center; */
+}
+
+.gridContainer{
+  border:solid rgb(20, 211, 20);
+}
+
+.rc-calendar-header{
+  /* display: none; */
+}
+
+.hitZone{
+  border: rgb(223, 208, 39) solid ;
+  position: absolute;
+  top:80px;
+  width: 100%;
+}
+
+.rc-calendar-last-month-cell{
+  color: rgb(127, 186, 225);
+  
+}
+
+.cellstyle{
+  border: solid rgb(230, 223, 223) 1px;
+}
+
+.cellstyleflagged{
+  border: solid rgb(9, 223, 116) 1px;
+}
+

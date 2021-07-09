@@ -1,65 +1,144 @@
-import React, {useState }from 'react'
+import React, {useState, useRef, useEffect }from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Calendar from 'react-calendar';
+
 import { AddAptForm } from './AddAptForm';
-import 'react-calendar/dist/Calendar.css';
+import { EditAptForm } from './EditAptForm';
+
 import { DayEvents } from './DayEvents'; 
-import { fetchAppts }from './calSlice'
-// import { Button } from '@material-ui/core'
+import { fetchAppts, deleteAppt, daysWithAppts }from './calSlice'
+import { Grid } from '@material-ui/core'
 
-import {deleteAppt} from './calSlice'
+import {} from './calSlice'
+import {Popout} from './Popout.js'
 
+import Calendar from 'rc-calendar';
 
+import  '../../rc.css'
+import '../../cal.css'
 
-export const CalendarComp=() => {
+export const CalendarComp=(props) => {
+
+  const calComp = useRef(null)
   const dispatch = useDispatch()
-
   const [clickedDay, setclickedDay] = useState();
   const [addform, setaddform] = useState()
-  
+  const [datenmbr, setdatenmbr] = useState()
+  const [month, setmonth] = useState()
+  const [loc,setloc] = useState({x:55,y:55})
+  const [showpopout, setshowpopout] = useState(false)
+  const [showdayevents, setshowdayevents] = useState(false)
+  const [ShowAddForm, setShowAddForm] = useState(false)
+  const [MonthAppts,setMonthAppts]=useState('DWA')
+  const appts = useSelector(state=>state.appts.appts) || []
+  const apptsforMonth = useSelector(state => state.appts.apptsforMonth)
+
+  useEffect(() => {  
+    dispatch(daysWithAppts())  
+  }, [])
+
+  useEffect(() => {   
+    setMonthAppts(apptsforMonth) 
+  }, [apptsforMonth])
+
+
+  const onClickDay= (date)=>{
+    //set state from date * fetch appointments load Popout * kill show addform  
+        if(date){ console.log('date ', date)
+          const timeStamp = date.clone().startOf('day').toDate().getTime()
+          setclickedDay(timeStamp)
+          setdatenmbr(date._d.getDate())
+          setmonth(date.format('MMM'))
+    
+          const res = dispatch(fetchAppts(timeStamp))  
+    
+          setTimeout(()=>setshowpopout(true),1)
+          setShowAddForm(false)
+        }  
+      }
+    
+      const deleteOneAppt = async (id)=> {
+        await dispatch(deleteAppt(id)
+        ).then(dispatch(fetchAppts(clickedDay)))
+      }
+      
  
-        // dispatch(deleteAppt(id))
-    
-    
-
-  const onClickDay= date=>{   
-    setclickedDay(date)
-    const res = dispatch(fetchAppts(date))  
-  }
-   
-  const deleteOneAppt = async (id)=> {
-    await dispatch(deleteAppt(id)
-    ).then(dispatch(fetchAppts(clickedDay)))
-  }
-
-  const deleteOneAppt = async (id)=> { console.log('deleteOneAppt')
-    // await dispatch(deleteAppt(id)
-    // ).then(dispatch(fetchAppts(clickedDay)))
-  }
+  const loadEditForm = useSelector((state) => state.appts.loadEditForm)
 
   return (
-    <div>
+    <Grid container  justify="center" className='gridContainer'>
       
-      <Calendar
-        tileClassName = {
-          ({ date, view }) => { 
-            return view === 'month' && date.getDay() === 4 ? 'saturday' : null}
-        }
-        onClickDay={date=>onClickDay(date.getTime())}
-      />
+      <Grid name='Popout' item xs={12} className='popoutitem'>
+        {showpopout ?  
+          <Popout 
+            loc={loc} 
+            month={month} 
+            datenmbr={datenmbr} 
+            ShowAddForm={ShowAddForm}
+            setShowAddForm={setShowAddForm}/>:null}
+      </Grid>
 
-      <div onClick={()=>setaddform(!addform)}>
-         { !addform ? <p>ADD +</p>  : <p>CLOSE -</p> }
-      </div>
+      <Grid name='Calendar' item xs={12} ref={calComp} className='calItem' 
+
+        onClick={ // set loc based on mouse loc  turn off showpopout
+          e=>{if (e.clientY > 170 && e.clientY < 315) {
+          setloc(
+            {x:e.clientX - 40, 
+             y:e.clientY -(calComp.current.getBoundingClientRect().top)-40},
+          )
+          setshowpopout(false)
+        }}
+      }
+      >
+        <Calendar    
+          onSelect={date=>onClickDay(date)}
+          disabledDate = {date=>month ? date.format("MMM") !== month : false 
+          }
+
+          dateRender={(current, value)=>{
+            
+            const date = current.toDate().getDate()
+
+            //console.log('setMonthAppts ',MonthAppts)
+
+
+
+            const timestamp = current.toDate().getTime()
+           
+            const cellStyle = `cell ${date === 3 ? 'apptAlert' : ''}`
+
+            let dayStamp 
+            if(date){  
+              dayStamp = current.clone().startOf('day').toDate().getTime().toString()
+              //console.log('dayStamp ',dayStamp, typeof dayStamp);
+              }     
+           
+
+            const cellstyle = MonthAppts && MonthAppts.includes(dayStamp) ? 'cellstyleflagged' : 'cellstyle' 
+        
+            return <div className = {cellstyle} >{date}</div>
+
+            }
+          }
+
+        />
+       
+
+      </Grid>
+
+      <Grid name='AddAptForm'item xs={11} >
+        {ShowAddForm ?
+        <AddAptForm clickedDay={clickedDay}/> : null}
+      </Grid>
     
-    {/* { addform ?  */}
-      <AddAptForm clickedDay={clickedDay}/>
-    {/* } */}
+      <Grid name='DayEvents' item xs={11}>
+        {appts.length > 0 ? 
+        <DayEvents deleteOneAppt={deleteOneAppt}/> : null}
+      </Grid>
 
-      <DayEvents deleteOneAppt={deleteOneAppt}/>
+      <Grid name='EditAptForm' item xs={11} >
+       {loadEditForm ? <EditAptForm/>: null}
+      </Grid>
 
-    </div>
+    </Grid>
   )
-  
-  
 }

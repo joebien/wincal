@@ -1,96 +1,135 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, TextField, FormControl } from '@material-ui/core'
+import { Grid, TextField} from '@material-ui/core'
+import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from 'react-redux'
-import { postNewAppt } from './calSlice'
-import { fetchAppts, editAppt, loadEditForm }from './calSlice'
 
+import {upDateAppt, deleteAppt}from './calSlice'
 
+import DatePicker from 'react-datepicker';
+import moment from 'moment'
+    
 export const EditAptForm = (props) => {
+
+/* #region  */
 
     const dispatch = useDispatch()
 
-    const [hours, sethours] = useState('00:00')
+  
+  
+
+/* #endregion  */
+const [DPdate, setDPdate] = useState(new Date())
+const [DisplayDate, setDisplayDate]=useState()
+const [time, settime] = useState('') 
+const [txt, settxt] = useState('') 
+// const [date, setdate] = useState('') 
+
+const EditApptData = useSelector(state=>state.appts.EditApptData)
+const userName = useSelector(state=>state.appts.userName)
+
+
+useEffect(()=>{
+
+    console.log('DPdate ',DPdate);
     
-    const [apptTxt, setApptTxt] = useState('')
+    console.log('momentDPdate ',moment(DPdate).format('MMM D'))
+    setDisplayDate(moment(DPdate).format('MMM D , h:mm a'))
+},[DPdate]
+)
 
-    const [helpertext, sethelpertext]=useState('')
 
-    const appt = useSelector( state => state.appts.editForm ? state.appts.editForm : null )
-    
-    const saveEditedAppt=()=>{
-        const editedAppt = {...appt,...{apptTxt:apptTxt, hours:hours}}
-        dispatch(editAppt(editedAppt)) 
-    }
+useEffect(()=>{
+  
 
-   
-    const handleTxtChange = e => {
-        setApptTxt(e.target.value)
-        sethelpertext('')  
-    }
-
-    useEffect(() => {
-        if (appt){console.log('appt ',appt.apptTxt);
-        sethours(appt.hours)
-        setApptTxt(appt.apptTxt)
-        }
-    }, [])
-
-    const handleChange=(hours)=>{
-        sethelpertext('')
-        sethours(hours)
-    }
-console.log('hours ',hours);
-    return (
+    if (EditApptData){ 
+        settxt(EditApptData.apptTxt) 
+        console.log('EditApptData.date ',new Date(EditApptData.date))
         
-        <Grid container className=''>
-            
-            <Grid name='Time Picker' item xs={12}>  
+       
+        setDPdate(new Date(EditApptData.date))
+        
+    }
+ },[EditApptData])
 
- {/* ////////////////Time Picker ///////////////////////////////*/}
-                <TextField 
-                    FormHelperTextProps={{className:'helpertext'}}
-                    helperText={helpertext}
-                    id="time"
-                    type="time"
-                    value = {hours}
-                    className={'textField'}
-                    // onChange={(e)=>handleChange(e.target.value)}
-                />
-      
-            </Grid>
-            
 
-            <Grid name='apptTxt' item xs={12}>
-                <textarea onChange={(e)=>handleTxtChange(e)} value={apptTxt} />
-            </Grid>
-            
 
-            <Grid name='save appt' item xs={12}>
-                <button onClick={()=>saveEditedAppt()}>
-                    save new
-                </button>
-            </Grid>
 
-            <Grid name='close' item xs={12}>
-                <button onClick={()=>dispatch(loadEditForm(false))}>
-                    close
-                </button>
-            </Grid>
 
-        </Grid>
-    )
+
+
+
+
+
+
+
+
+
+
+
+
+const saveEdit = ()=> {
+    dispatch(upDateAppt({
+        txt, time, userName, date:EditApptData.date})
+        )
 }
 
-const to24Time = num => { 
-   
-    let hr = num.slice(0,2) > 12 ? num.slice(0,2) -12 : num.slice(0,1)
-    const min = num.slice(3)!='00' ? ('00'+num.slice(-2)).slice(-2) : '00'
-    const meridian = num.slice(0,2) > 11 ? 'pm' : 'am'
-  
-    return hr+':'+min + meridian
-  } 
+    return (
+          
+            <Grid container >
+                <Grid container item xs={12} className = 'eventsHead'>
+                    {/* <Grid className = 'editDateDisplay' item xs={6}>
+                        {DisplayDate}
+                    </Grid> */}
+                    <Grid item xs={4}>
+                        <DatePicker
+                            className='datePicker'
+                            selected={DPdate}
+                            onChange={setDPdate}
+                            showTimeSelect
+                            name="startDate"
+                            dateFormat="MMM dd   yy"
+                        />              
+                    </Grid>
 
+                    {/* <Grid className = 'editTimeDisplay' item xs={6}>
+                        DisplayTime
+                    </Grid> */}
+                    
+                  
+                </Grid>
+                
+                
+                
+                {/* <Grid className = 'apptTxtItem' name='txt'  item xs={12}>
+                    <form >
+                        <TextField
+                            
+                            id="text"
+                            label="?"
+                            type="text"
+                            value = {txt}            
+                            InputLabelProps={{
+                            shrink: true,
+                            }}
+                            inputProps={{
+                            step: 300, // 5 min
+                            }}
+                            onChange={(e)=>settxt(e.target.value)}
+                        />
+                    </form>
+                </Grid> */}
 
-
-
-
+                {/* <Grid item xs={12}>
+                    <button onClick={saveEdit}>save edit</button>
+                </Grid>
+                
+                <Grid item xs={12}>
+                    <button onClick={()=>dispatch(deleteAppt({date:date ,userName:userName}))}>
+                        del
+                    </button>
+                </Grid> */}
+                           
+            </Grid>
+       
+    )
+}

@@ -6,46 +6,39 @@ import {
   Redirect,
 } from 'react-router-dom'
 
-import { Navbar } from './app/Navbar'
-import Nav from './app/Nav.js'
-import DropMenu from './app/DropMenu.js'
+import {Head} from './app/Head.js'
 
-import { MsgsList } from './features/msgs/MsgsList'
-import { AddMsgForm } from './features/msgs/AddMsgForm'
 import {CalendarComp} from './features/calendar/CalendarComp'
-
-import { UsersList } from './features/users/UsersList'
-import { UserPage } from './features/users/UserPage'
-import { NotificationsList } from './features/notifications/NotificationsList'
+import {UsersComp} from './features/users/UsersComp'
 
 import {LessTest} from './app/LessTest.js'
 
 function App() {
   return (
+  
     <Router>
-      {/* <Navbar /> */}
-      {/* <Nav/> */}
-      <DropMenu/>
-      <div className="App">
+    <Head/>
+
+      <div className="app">
         <Switch>
           <Route
-            exact
-            path="/"
+            exact path="/cal"
             render={() => (
               <React.Fragment>
-                {/* <AddMsgForm />
-                <MsgsList/> */}
-                <CalendarComp/>
+                <CalendarComp/>     
               </React.Fragment>
-            )}
-          />
-          <Route exact path="/lessTest" component={LessTest} />
-          <Route exact path="/users/:userId" component={UserPage} />
-          <Route exact path="/notifications" component={NotificationsList} />
+            )}/>
+       
+          <Route exact path="/" 
+            component={UsersComp} />
+       
           <Redirect to="/" />
         </Switch>
+        
       </div>
+
     </Router>
+   
   )
 }
 

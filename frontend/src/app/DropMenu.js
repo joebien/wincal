@@ -26,8 +26,14 @@ export default function DropMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link to={"/"}><MenuItem onClick={handleClose}>Calendar</MenuItem></Link>
-        <Link to={"/lessTest"}><MenuItem onClick={handleClose}>LessTest</MenuItem></Link>
+        <Link to={"/"}>
+          <MenuItem onClick={handleClose}>Calendar</MenuItem>
+        </Link>
+
+        <Link to={"/users"}>
+          <MenuItem onClick={handleClose}>Users</MenuItem>
+        </Link>
+
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
     </div>

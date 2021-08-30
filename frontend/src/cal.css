@@ -1,7 +1,11 @@
 @import url(https://fonts.googleapis.com/css2?family=Viaoda+Libre&display=swap);
 
 
-@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Viaoda+Libre&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300&family=Viaoda+Libre&display=swap);
+
+body{
+  background: rgb(83, 99, 103);
+}
 
 
 .react-calendar {
@@ -11,7 +15,7 @@
   border: 1px solid #a0a096;
   line-height: 1.125em;
   color: black;
-  font-family: 'Viaoda Libre', cursive;
+  font-family: 'Montserrat', cursive;
 }
 
 .react-calendar *:before,
@@ -67,40 +71,120 @@
   /* font-weight: lighter; */
 }
 
+.app{
+  width: 412px;
+  display: flex;
+  justify-content: center;
+ border: dotted rgb(210, 225, 232) 1px;
+ background: rgb(239, 242, 244);
+}
+
+header{
+  display: flex;
+  align-items: center;
+  background: rgb(239, 242, 244);
+}
+
+.calDiv{
+  /* border: solid orange; */
+  width: 90%;
+}
+
+.gridContainer{
+  /* border:solid rgb(255, 0, 76); */
+  /* height: 500px; */
+  display: flex;
+}
+
+.calItem{
+  /* border:solid rgb(201, 211, 203) 1px; */
+
+  display:flex;
+  justify-content: center;
+}
+
+.uName{
+  border: rgb(0, 225, 255) solid;
+}
+
+.popoutitem{
+  height: 0%;
+  border: rgb(18, 211, 153) solid;
+  padding: 0px;
+}
 
 .popout {
-  background: rgb(188, 206, 218);
+  background: rgb(219, 226, 231);
   position: absolute;
   z-index: 22;
   width: 55px!important;
-  height: 85px;
-  font-size: 2em;
-  
- 
-  border-radius: 7px;
-  box-shadow: 2px 4px 5px  rgb(111, 106, 70);
+  font-size: 1.8em;
+  /* border-radius: 1px; */
   color : black;
-
+  padding: 3px 0;
+  border:2px outset rgb(242, 243, 247);
   animation-name: popout;
-  animation-duration: .3s;
+  animation-duration: .15s;
   animation-fill-mode: forwards; 
- transform:scale(0)
-  
+  transform: scale(0);
+  box-shadow: 3px 2px 4px rgb(117, 127, 133);
+  /* inset 0 -1px 1px rgba(0,0,0,0.5),  */
+  /* inset 0 -6px 1px rgba(167, 45, 45, 0.3); */
+}
 
+
+
+
+.wincalendar{
+  /* border: solid rgb(191, 0, 191); */
+  width: 412px;
+  height: 100px;
+}
+
+.close{
+  font-size: .4em;
+  display:flex;
+  justify-content: flex-end;
+  border: #00ffc8 solid;
+  
+}
+
+.addBtnItem{
+  /* color: rgb(43, 43, 56) !important; */
+  position: absolute;
+  top: -9%;
+  left: 77%;
+  font-size: .6em;
+  display:flex;
+  align-items: flex-start;
+  /* border: solid green 1px; */
+  display: flex;
+}
+
+.btn1{
+  background:none !important;
+  color: rgb(1, 156, 1);
+  transform: scale(1);
+  transition-duration: .6s;
+}
+
+.btn1:active{
+  transform: scale(3)
 }
 
 .monthItem{
-  height: 10px;
+  /* height: 10px; */
   font-size: .5em;
-
 }
 
-.dateNmbrItem{
+
+.dateNmbrItem{ 
   /* border: red dotted 1px; */
-  height: 60px;
+  /* height: 60px; */
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  line-height: 1.1;
 }
 
 .cell{
@@ -112,14 +196,153 @@
   border: red solid 1px;
 }
 
+.apptTxtItem{
+
+ position: relative;
+ 
+  border:rgb(0, 255, 64) solid 1px;
+  
+}
 
 
-/* .dateNmbr{
+
+.apptpopout{
+  position: absolute;
+  background: white;
+  bottom: 105px;
+  left: 30px;
+  width: 352px;
+  padding: 3px 3px 3px 9px;
+  border: solid 1px rgb(193, 211, 201);
+}
+
+.form{ 
+}
+
+
+
+.AppointmentRow{
+  position: relative;
+  background: white;
+  font-family: 'Montserrat', cursive;
+  font-weight: 300;
+  text-shadow: 2px 2px 2px#b5c0b8;
+  margin-bottom: 2px;
+  padding: 0px;
+}
+
+.datepickerItem{
+border: solid 1px rgb(233, 16, 197);
+display: flex;
+justify-content: flex-start;
+/* overflow: hidden; */
+padding: 4px 0;
+/* box-shadow: rgb(226, 239, 243) 0px 2px 2px; */
+}
+
+.datepickerinput{
+  font-size: 1.2em;
+  border: none;
+  
+  width:110px;
+  padding: 0 0px 0 12px;
+  height: 16px;
+  
+}
+
+.txtField{
+ 
+
+}
+
+
+.item1{
+  padding-left :5px;
+  /* background: white; */
+}
+
+.item2{
+  position: absolute;
+  left: 62px; 
+}
+
+.item3{
+  position: absolute;
+  left: 90px;
+}
+
+.item4{
+    position: absolute;
+  left: 250px;
+}
+
+.dayevents{
+  padding: 15px 0px;
+}
+
+.editAptItem{
+  border: rgb(184, 184, 233) solid 4px;
+}
+
+.timeField{
+  height: 10px;
+  position: absolute;
+  bottom: 10px;
+}
+
+
+.dateNmbr{
   position: absolute;
 
   top:13px;
   border: rgb(30, 255, 0) dotted 1px;
-} */
+}
+
+.editDateDisplay{
+  position: absolute;
+
+ height: 30px;
+ overflow: hidden;
+ pointer-events: none;
+ background: white;
+ padding : 3px;
+ z-index: 2;
+ pointer-events: none;
+}
+
+.editTimeItem{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.editTimeDisplay{
+  position: absolute;
+  left: 100px;
+  height: 30px;
+  overflow: hidden;
+  pointer-events: none;
+  background: white;
+  padding : 3px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.datePicker{
+  /* border: none !important; */
+  box-shadow: none !important;
+  height: 10px;
+}
+
+.timePicker{
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
+
+.timeField{
+  
+}
 
 
 @keyframes popout {
@@ -128,7 +351,7 @@
 }
 
 button {
-  color: black!important;
+  /* color: black!important; */
 }
 /* 
 button:hover {
@@ -139,46 +362,38 @@ button:hover {
   -webkit-tap-highlight-color: transparent!important;
 } */
 
-button:active{
+/* button:active{
   -webkit-tap-highlight-color: transparent!important;
   background: rgb(169, 179, 187)!important;
   animation-delay: .1s;
   animation-name: popout;
   animation-duration: .3s;
   animation-fill-mode: forwards; 
-}
+} */
   
 button:focus {    
   background:none !important;
 }  
 
-.addBtnItem{
-  font-size: .4em;
-  display:flex;
-  justify-content: flex-end;
+
+
+
+
+.rc-calendar{
+  height: 700px;
+  height:auto;
+  /* border: solid rgb(209, 255, 5); */
 }
 
-abbr{
-  text-decoration: none !important;
-}
-
-.calItem{
-  border:solid red;
-  /* display:flex;
-  justify-content: center; */
-}
-
-.popoutitem{
-  /* display:flex;
-  justify-content: center; */
-}
-
-.gridContainer{
-  border:solid rgb(20, 211, 20);
-}
 
 .rc-calendar-header{
   /* display: none; */
+}
+
+.rc-calendar-panel{
+ 
+  height: 325px;
+  
 }
 
 .hitZone{
@@ -190,14 +405,50 @@ abbr{
 
 .rc-calendar-last-month-cell{
   color: rgb(127, 186, 225);
-  
 }
 
 .cellstyle{
-  border: solid rgb(230, 223, 223) 1px;
+  border: solid rgb(153, 182, 179) 1px;
+  font-size: 1.5em;
+  /* letter-spacing: 1px; */
+  text-align: center;
+  font-family: 'Montserrat', cursive;
+  padding:0;
 }
 
 .cellstyleflagged{
-  border: solid rgb(9, 223, 116) 1px;
+  box-shadow: inset 0 0 6px #37cc64;
 }
+
+.sidePanel{
+  position: absolute;
+  left: 100%;
+  /* width:100%; */
+  /* padding: 2px 2px 0 2px; */
+  border: solid rgb(120, 161, 177) 1px;
+  border-radius: 5px;
+  background: white;
+}
+
+
+ul, li { /* reset the margin and padding */
+  margin: 0;
+  padding: 0;
+}
+
+ul{
+  padding: 2px;
+  font-size: 0;
+}
+
+li{
+  margin: 1px;
+  background:rgb(190, 207, 190);
+  display: block;
+  color: rgb(83, 83, 139);
+  font-size: 11px;
+  /* margin-bottom: -19px; */
+  padding: 0px 3px;
+}
+
 

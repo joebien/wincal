@@ -6,11 +6,13 @@ import {  configureStore, createSerializableStateInvariantMiddleware, isPlain} f
 //import notificationsReducer from '../features/notifications/notificationsSlice'
 
 import calReducer from '../features/calendar/calSlice'
+import usersReducer from '../features/users/usersSlice'
 
 
 export default configureStore({
   reducer: {
     appts:calReducer,
+    users:usersReducer
 
     // msgs: msgsReducer,
     // users: usersReducer,

@@ -5,26 +5,49 @@ import {
 } from '@reduxjs/toolkit'
 import { client } from '../../api/client'
 
+import axios from 'axios'
+import ls from 'local-storage'
+
 const usersAdapter = createEntityAdapter()
 const initialState = usersAdapter.getInitialState()
 
-export const fetchUsers = createAsyncThunk('users/fetchUsers', async () => {
-  const response = await client.get('/fakeApi/users')
-  return response.users
+export const signInUser = createAsyncThunk( 
+  'users/signInUser', 
+  async (initialPost) => { 
+    
+  const response = await axios.get('/api/users/signin',
+    {params:initialPost}
+  )
+  return response.data
+  
+})
+
+
+export const createNewUser = createAsyncThunk( 
+  'users/createNewUser', 
+  async (initialPost) => { 
+  const response = await axios.post('/api/users/ ',initialPost)
+  return response.data
 })
 
 const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {},
+
   extraReducers: {
-    [fetchUsers.fulfilled]: usersAdapter.setAll,
-  },
+    [createNewUser.fulfilled]:(state, action)=>{ 
+      localStorage.setItem('user', JSON.stringify({userName:'michy'}) )
+    },
+    [signInUser.fulfilled]:(state, action)=>{ console.log('fulfilled',);
+    
+      state.isaUser = action.payload
+    }
+
+}
+
 })
 
 export default usersSlice.reducer
 
-export const {
-  selectAll: selectAllUsers,
-  selectById: selectUserById,
-} = usersAdapter.getSelectors((state) => state.users)
+export const { } = usersSlice.actions

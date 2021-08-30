@@ -2,32 +2,42 @@ import React, { useState, useEffect } from 'react'
 import { Grid, TextField, FormControl } from '@material-ui/core'
 import { useSelector, useDispatch } from 'react-redux'
 import { postNewAppt } from './calSlice'
-import { fetchAppts }from './calSlice'
+import { fetchAppts, setshowPopOut, setopenAddAppt }from './calSlice'
+import moment from 'moment'
 
-export const Popout = ({loc, datenmbr, month, ShowAddForm, setShowAddForm}) => 
+export const Popout = ({loc, datenmbr, month, ShowAddForm, setShowAddForm}) => {  
+
+   const dispatch = useDispatch()
+
+   const currentDate = useSelector(state=>state.appts.CurrentDate)
+
+const dateNmbr = moment(currentDate).format('D')
+
+   return(
    
-<Grid container justify='center' 
+   <Grid className='popout' container justify='center' 
+      style={{
+      width: '140px',
+      marginLeft: loc.x -14 + 'px',
+      marginTop: loc.y + 42 + 'px',
+      }}
+      onClick={()=> dispatch(setopenAddAppt(true))}
+      >
 
-   onClick={()=>setShowAddForm(!ShowAddForm)}
-   
-   style={{
-      width: '150px',
-      marginLeft: loc.x +'px',
-      marginTop: loc.y + 'px',
-   }}
 
-   className='popout' 
->
-   <Grid item xs={7}className='monthItem'>
-      {month}
-   </Grid> 
-   <Grid item xs={7}className='dateNmbrItem'>
-      {datenmbr}
-   </Grid> 
+         <Grid  item xs={12} className='addBtnItem'>
+            <button className='btn1'>+</button>
+         </Grid>
 
-   <Grid item xs={12} className='addBtnItem'><button >+</button></Grid>
 
-</Grid>
-   
-    
+         <Grid item xs={7}className='dateNmbrItem' 
+            onClick={()=>dispatch(setshowPopOut(false))}>
+            {dateNmbr}
+         </Grid> 
+
+   </Grid>
+      )
+   }
+
+ 
 

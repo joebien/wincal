@@ -9,38 +9,14 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import connectDB from './config/db.js'
 import userRoutes from './routes/userRoutes.js'
 import mongoose from 'mongoose'
-import c from 'config'
-
-
 
 dotenv.config()
 
 connectDB()
 
-const msgSchema = new mongoose.Schema({
-  text: String
-})
-
-const fetchMsgs =(req, res)=>{ 
-  const Msg = mongoose.model('Msg', msgSchema)
-  Msg.find((err,msgs)=>
-
-  res.send(msgs)
-  )
-}
-
-const saveMsg =(req)=>{ 
-  
-  const Msg = mongoose.model('Msg', msgSchema)
-  
-  
-  const Msg01 = new Msg(req.body) 
-
-  Msg01.save()
-}
-
 const apptSchema = new mongoose.Schema({
   _id: String,
+  userName: String,
   date: String,
   time: String,
   apptTxt: String,
@@ -49,64 +25,161 @@ const apptSchema = new mongoose.Schema({
   year: String
 })
 
-const deleteAppt = (req, res)=>{ console.log('deleteAppt.query ',req.query._id )
-  const Appt = mongoose.model('Appt', apptSchema)
-  Appt.findByIdAndDelete(req.query._id , (res)=> console.log('deleteRes',res))
+const UserApptsSchema = new mongoose.Schema({
+ userName: String,
+ appts: Array
+});
 
-  res.send(req.query._id)
+const createUserAppts =(req, res)=>{ 
 
+  const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
+
+  const newUserAppts = new UserAppts()
+
+  newUserAppts.userName = req.body.userName
+
+  newUserAppts.save()
 }
 
-const saveAppt =(req, res)=>{ 
-  const Appt = mongoose.model('Appt', apptSchema )
-  const id = mongoose.Types.ObjectId();
+const saveAppt = async (req, res)=>{   
   
+  console.log('req.body ',req.body.datetime)
 
-  const Appt01 = new Appt(req.body) 
-
-  Appt01._id = id
-
-  Appt01.save()
-
-  res.json(Appt01)
-
-}
-
-
-
-const fetchAppts =(req, res)=>{ 
-
-  const Appt = mongoose.model('Appt', apptSchema)
-
-  Appt.find(req.query, (err,appts)=> 
-
-
-  
-  res.send(appts)
-
-  )}
-
-
-
-
-///////////////////////////////////////////////////////////////////
-  const editAppt = async (req, res)=>{ 
+  const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
     
-    
-    const appt = req.body
-  
-    const query = {_id:appt._id}
-    const reqnewData = {apptTxt:appt.apptTxt, time:appt.time, hours:appt.hours}
+  const currentUserAppts = await UserAppts.findOne(
+    {userName: req.body.userName},(err, user)=>{
+  })
 
-    const Appt = mongoose.model('Appt', apptSchema )
- 
-  ////////////////////////////////////////////////////////////////////////
-    
-    let doc = await Appt.findOneAndUpdate(query, reqnewData, {new:true})
-    console.log('doc',doc)
-    res.send(doc)
+  if(!currentUserAppts.appts.some(
+    appt => appt.datetime === req.body.datetime)) { 
+   
+
+    currentUserAppts.appts.push(req.body)
+
+    currentUserAppts.save()
   
   }
+
+   res.send(req.body)
+}
+
+const daysWithAppts = async (req, res)=>{ 
+
+  const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
+
+  UserAppts.findOne({userName: req.query.userName},(err, obj)=>{
+   
+    let mnthAppts
+
+  //  if(obj) mnthAppts = obj.appts.filter(
+  //   appt=>appt.month === req.query.month
+  // ).map(appt=>appt.dateNmbr)
+
+
+ if(obj){ res.send(
+  obj.appts.filter(appt=>appt.month === req.query.month).map(appt=>appt.datetime)
+  )}
+  
+
+
+  })
+}
+
+const fetchAppts = async (req, res)=>{  
+console.log('req ',req.query);
+
+  const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
+
+  UserAppts.findOne({userName: req.query.userName},(err, user)=>{
+
+    console.log('server ',req.query.datetime.slice(0,10))
+   
+    res.send(user.appts.filter(appt=>appt.datetime.slice(0,10) === req.query.datetime.slice(0,10)))
+  })
+}
+
+
+
+const deleteAppt = (req, res)=>{  
+  
+  console.log('req.query' ,req.query)
+
+  const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
+
+  UserAppts.findOneAndUpdate({userName:req.query.userName},
+    {$pull: {appts:{date:req.query.date}}}, err => {
+      if (err) {
+        console.log('error')
+        
+        return 'error'
+      }
+    }
+    )
+
+}
+
+const updateAppt = async (req, res)=>{ 
+  console.log('req.body ',req.body.txt );
+  
+  const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
+
+  let appts = await UserAppts.findOneAndUpdate(
+
+    {userName:req.body.userName},
+    {$set: {'appts.$[appt].time':req.body.time,
+            'appts.$[appt].apptTxt':req.body.txt
+    
+   }},
+    // {$set: {'appts.$[appt].txt':req.body.txt }},
+    {arrayFilters: [{ 'appt.date': req.body.date }]}
+
+  )
+}
+
+
+const userSchema = new mongoose.Schema({
+  _id: String,
+  userName: String,
+  email: String
+})
+
+const signInUser = (req, res)=>{
+
+
+
+  const User = mongoose.model('user', userSchema )
+
+  User.find( req.query, (err,users)=>{
+   
+    res.send( users.length > 0)
+  })
+
+}
+
+const createNewUser = (req, res)=>{
+
+  const User = mongoose.model('user', userSchema )
+
+  User.find(req.body, (err,users)=>  {
+  
+    if(users.length > 0){  
+     
+      res.send( 'in use' )
+    }else{
+      const id = mongoose.Types.ObjectId();
+      const newUser = new User(req.body) 
+      newUser._id = id
+      newUser.email = id
+
+      newUser.save()
+      res.send( newUser )
+    }
+  })
+
+}
+
+///////////////////////////////////////////////////////////////////
 
 
 const app = express()
@@ -116,30 +189,24 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json())
 app.use(helmet())
 
+app.post('/api/users/', createNewUser)
+
+app.post('/api/appts/', createUserAppts)
+
+app.post('/api/appts/newAppt', saveAppt)
+
+app.get('/api/users/signin', signInUser)
+
 app.get('/api/appts/', fetchAppts)
 
-app.post('/api/appts/', saveAppt)
+app.get('/api/appts/dayswappts', daysWithAppts)
+
+// app.post('/api/appts/', saveAppt)
 //////////////////////////////////////////////////////////////////////////////
 
 app.delete('/api/delappt', deleteAppt)
 
-app.put('/api/appts', editAppt)
-
-
-
-
-
-
-
-
-
-
-app.post('/api/msgs/', saveMsg)
-app.get('/api/msgs/', fetchMsgs)
-
-
-
-
+app.put('/api/appts/updateAppt', updateAppt)
 
 app.use('/api/users', userRoutes)
 
@@ -169,7 +236,7 @@ const PORT = 4000
 app.listen(
   PORT,
   console.log(
-    `Server running ${process.env.NODE_ENV} mode on post ${PORT}`.yellow.bold
+    `Server running ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
   )
 )
 

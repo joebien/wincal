@@ -7,7 +7,6 @@ body{
   background: rgb(83, 99, 103);
 }
 
-
 .react-calendar {
   width: 350px;
   max-width: 100%;
@@ -74,9 +73,10 @@ body{
 .app{
   width: 412px;
   display: flex;
+  /* flex-direction: column; */
   justify-content: center;
- border: dotted rgb(210, 225, 232) 1px;
- background: rgb(239, 242, 244);
+  /* border: dotted rgb(236, 26, 71) 1px; */
+  background: rgb(239, 242, 244);
 }
 
 header{
@@ -88,24 +88,18 @@ header{
 .calDiv{
   /* border: solid orange; */
   width: 90%;
+  /* overflow: hidden; */
+  padding: 0 30px 20px rgb(37, 57, 40);
 }
 
-.gridContainer{
-  /* border:solid rgb(255, 0, 76); */
-  /* height: 500px; */
-  display: flex;
-}
 
 .calItem{
-  /* border:solid rgb(201, 211, 203) 1px; */
+  border:solid rgb(40, 134, 59) 1px;
 
   display:flex;
   justify-content: center;
 }
 
-.uName{
-  border: rgb(0, 225, 255) solid;
-}
 
 .popoutitem{
   height: 0%;
@@ -193,16 +187,187 @@ header{
 }
 
 .apptAlert{
-  border: red solid 1px;
+  border: rgb(223, 206, 23) solid 1px;
 }
 
 .apptTxtItem{
-
- position: relative;
- 
-  border:rgb(0, 255, 64) solid 1px;
-  
+/* border: red solid; */
+font-family: 'Montserrat';
 }
+
+.AafapptTxtItem{
+  /* border: red solid; */
+ 
+  
+
+}
+
+.AafTxt{
+  position: relative;
+  left: -15px;
+  width: 105%;
+  
+  /* border-style: solid none none;
+  border-color: rgb(172, 221, 172);
+  border-width: 1px; */
+}
+
+.time-text{
+  /* border: rgb(33, 214, 78) solid 1px; */
+  display: flex;
+  
+  position: relative;
+  left: 0px;
+  width: 105%;
+  /* font-size: 2em; */
+}
+
+
+hr{
+    top: 30px;
+    color: #000000;
+    background-color: #9db6a2;
+    width: 20px;
+    
+/*    
+    height: .5;
+    border-color : #000000; */
+
+}
+
+.apptTxt{
+  position: relative;
+  /* top: 18px; */
+  left: -18px;
+  width: 106%;
+  background-color: rgb(227, 232, 233);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* border: rgb(25, 236, 17) solid; */
+  padding: 0px !important;
+}
+
+.apptunder{
+  width: 0px;
+  transition: .5s;
+  border-bottom: 1px solid  rgb(121, 170, 121);
+}
+
+.apptunderspread{
+  width: 100%;
+}
+
+.module-border-wrap {
+  
+  background: linear-gradient(0deg, 
+  rgb(151, 179, 169) 70%,
+  rgb(197, 211, 204) 90%,
+  rgb(255, 255, 255) 100%); 
+ 
+  display: flex;
+  padding: 1px;
+  border-radius: 3px;
+  margin-top: -3px;
+
+  animation: slidein .7s forwards;
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+@keyframes slidein {
+  from {
+    transform: scaleY(0);
+  }
+
+  to {
+    transform: scaleY(1);
+  }
+}
+
+
+
+.module-button{
+  font-family: 'Montserrat' !important;
+  font-size: 1em;
+  flex: 1;
+  background: rgb(245, 248, 248) !important;
+  text-align: center;
+  line-height: .9em;
+  padding: 5px;
+  color:rgb(44, 85, 88);
+  margin: 0px !important;
+  border-radius: 3px !important;
+  -webkit-tap-highlight-color: transparent;
+  height: 100%;
+  animation: glow;
+}
+
+@keyframes glow {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+
+.module-button:active{
+  color: rgb(15, 41, 18) !important;
+}
+
+.module-button:focus{
+  background: rgb(185, 216, 187) !important;
+  background: rgb(206, 216, 216) !important;
+  color:rgb(103, 169, 107);
+  box-shadow: none;
+}
+
+.savedayevent{
+  border-style: none solid solid;
+  border-color: rgb(130, 177, 157);
+  border-width: 1px;
+  line-height: .9em;
+  padding: 2px;
+  border-radius: 6px;
+}
+
+/*   
+.appttxtarea:focus{
+  padding: 0px 0px 21px;
+  height: auto; 
+} */
+
+.appttxtarea, .appttxtareaMulti{
+  
+  margin: 0px !important;
+  border: none !important;
+  box-shadow: none !important;
+  height: 20px;
+  padding: 2px 6px;
+  transition: 1s;
+  resize: none;
+  line-height: 1.2em;
+  /* height: auto; */
+
+  /* border: rgb(92, 37, 218) dotted !important;
+   */
+}
+
+/* .appttxtarea:active{
+  height: auto;
+  transition: 1s;
+} */
+
+.appttxtarea:focus{
+  height: var(--focusheight);
+  transition: 1s;
+}
+
+
+
 
 
 
@@ -219,161 +384,323 @@ header{
 .form{ 
 }
 
-
+.appts{
+  margin-top: -10px;
+}
 
 .AppointmentRow{
-  position: relative;
+  /* position: relative;
   background: white;
   font-family: 'Montserrat', cursive;
   font-weight: 300;
   text-shadow: 2px 2px 2px#b5c0b8;
-  margin-bottom: 2px;
-  padding: 0px;
+  
+  padding: 0px; */
+
+  margin-bottom: 10px;
+  transition: 1s;
+}
+
+.selected{
+  box-shadow: 3px 2px 6px;
+  
 }
 
 .datepickerItem{
-border: solid 1px rgb(233, 16, 197);
-display: flex;
-justify-content: flex-start;
+/* border: solid 1px rgb(233, 16, 197); */
+/* display: flex;
+justify-content: flex-start; */
+/* align-items: flex-start; */
 /* overflow: hidden; */
-padding: 4px 0;
+/* padding: 0 0 6px; */
 /* box-shadow: rgb(226, 239, 243) 0px 2px 2px; */
+background: rgb(205, 214, 203);
+padding: 2px 2px;
+position: relative;
 }
 
 .datepickerinput{
+  /* font-size: 1em;
+  border: none !important;
+  position: absolute;
+  top: -12px;
+  left: 30px;
+  border: red solid;  */
+}
+
+.addaptform{
+  
+  /* box-shadow: 2px -3px 17px rgb(181, 185, 187); */
+  /* background: linear-gradient( 
+    180deg, rgb(215, 224, 226), rgb(255, 255, 255)); */
+  /* border: red solid 1px; */
+  padding: 3px 0px 0px;
+  margin-top: 5px;
+  overflow: visible;
+  /* z-index: -1; */
+ 
+  position: relative;
+
+}
+
+.stripes{
+  position: absolute;
+  top: -20px;
+  left:-20px;
+  /* width: 400px; */
+  z-index: 0;
+  clip-path: polygon(0% 0%, 100% 0%,  100% 55%, 0% 55%);
+  opacity: .06;
+
+
+}
+
+.date{
+  text-align: center;
+  text-decoration: underline;
+  padding: 10px;
+  font-size: 1.3em;
+  color: rgb(20, 61, 27);
+
+}
+
+
+.newApttimeItem{
+  /* border: red dotted 1px */
+}
+
+.AafDatetimeItem{
+  padding-left: 3%; 
+  position: relative;
+  /* border: red dotted 1px */
+}
+
+.AafDatetimeItem .dateimeWrap{
+  /* border: blue solid; */
+  position:absolute;
+  left: 0px;
+  top: -6px;
+  z-index:22;
+  width: 120%;
+  /* height: 100px; */
+  /* border: blue solid; */
+  /* / */
+}
+
+.datepickerItem .dateimeWrap{
+  /* border: blue solid; */
+  position:absolute;
+  left: -9px;
+  top: -14px;
+  z-index:22;
+  width: 120%;
+  /* height: 100px; */
+  /* border: blue solid; */
+  /* / */
+}
+
+
+.graphic{
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  pointer-events: none; 
+  position: absolute;
+  color:rgb(164, 199, 187);
+  z-index: 22;
+  bottom: 0px;
+  left: 0px;
+  opacity: 1;
+  
+}
+
+
+
+.plainbtn{
+  left: 0;
+  top: 0;
+  transform:scale(1);
+  height: 60px;
+  width: 60px;
+  transform-origin: center;
+  border:rgb(33, 37, 33) solid 1px !important; 
+} 
+
+.scale{
+  
+  transform:scale(1.2);
+  border:rgb(33, 37, 33) solid 1px; 
+}
+
+/* .testptag{
+  border: red solid;
+} */
+
+div.graphic p{
+  position: absolute;
+  left: -20px;
+  top: 15%;
+  padding: 0 6px;
+  color: rgb(107, 70, 70);
+  font-size: .9em; 
+  white-space: nowrap;
+  background: white;
+  /* border: red solid;  */
+
+}
+
+div.graphic div{
+  position: absolute;
+  z-index: -1;
+  background: rgb(176, 190, 180);
+  height: 2px;
+  width: 47px;
+  
+}
+
+img{
+  padding: 0 !important;
+  margin: 0 !important;
+  border: solid 1px;
+}
+
+.graphic:hover{
+  color:#a4cdb0;
+  /* opacity: 0; */
+}
+
+.graphic:active{
+  color:rgb(101, 199, 158);
+}
+
+.graphic:focus{
+  opacity: 1;
+  
+ 
+}
+
+
+
+.addappttxtarea .addtxthelper{
+  line-height: 1em;
+  /* height: 200px; */
+  margin: 0 !important;
+  border-radius: 0;
+  
+  box-shadow: none !important;
+  /* padding: 5px; */
+  transition: .3s;
+  resize: none;
+  background-color: white !important;
+}
+
+.addappttxtarea::placeholder {
+  color: rgb(16, 18, 16);
   font-size: 1.2em;
-  border: none;
-  
-  width:110px;
-  padding: 0 0px 0 12px;
-  height: 16px;
-  
+  font-style: italic;
+}
+
+.addtxthelper::placeholder {
+  color: rgb(184, 64, 28);
+  font-size: 1.2em;
+  font-style: italic;
+}
+
+.addappttxtarea:active{
+  border-style: none solid;
+   border-color:  rgb(144, 185, 175);
+   border-width: 1px;
+   border-radius: 0;
+   background: white;
+ }
+
+.addappttxtarea:focus{
+ border-style: none solid;
+  border-color:  rgb(144, 185, 175);
+  border-width: 1px;
+  border-radius: 0;
+  background: white;
+}
+
+/* div.AafapptTxtItem textarea{
+  background: white;}  */
+
+
+
+.saveappt{
+  padding-top: 3px;
+  display: flex;
+  justify-content: flex-end; 
+  /* border: red solid; */
 }
 
 .txtField{
  
+  background: "rgb(232, 241, 250)"
+}
 
+.textupdate{
+  /* border: rgb(235, 121, 27) solid; */
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
 }
 
 
-.item1{
-  padding-left :5px;
-  /* background: white; */
+.MuiFilledInput-root{
+  background: white !important;
 }
 
-.item2{
-  position: absolute;
-  left: 62px; 
+.testArea{
+  line-height: .07em;
 }
 
-.item3{
-  position: absolute;
-  left: 90px;
+
+.teststyle{
+  background :rgb(0, 225, 255);
 }
 
-.item4{
-    position: absolute;
-  left: 250px;
+
+
+
+.dayeventsItem{
+
+  padding: 10px 0px;
+  
 }
 
 .dayevents{
-  padding: 15px 0px;
-}
-
-.editAptItem{
-  border: rgb(184, 184, 233) solid 4px;
-}
-
-.timeField{
-  height: 10px;
-  position: absolute;
-  bottom: 10px;
-}
-
-
-.dateNmbr{
-  position: absolute;
-
-  top:13px;
-  border: rgb(30, 255, 0) dotted 1px;
-}
-
-.editDateDisplay{
-  position: absolute;
-
- height: 30px;
- overflow: hidden;
- pointer-events: none;
- background: white;
- padding : 3px;
- z-index: 2;
- pointer-events: none;
-}
-
-.editTimeItem{
-  display: flex;
-  justify-content: flex-end;
-}
-
-.editTimeDisplay{
-  position: absolute;
-  left: 100px;
-  height: 30px;
-  overflow: hidden;
-  pointer-events: none;
-  background: white;
-  padding : 3px;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.datePicker{
-  /* border: none !important; */
-  box-shadow: none !important;
-  height: 10px;
-}
-
-.timePicker{
-  border: none !important;
-  box-shadow: none !important;
+  text-align: center;
 }
 
 
 
-.timeField{
-  
+.dayeventsdate{
+  width: 100%;
+  text-align: center;
+  position: relative;
+  bottom: 8px;
+  color: rgb(48, 90, 36);
+  letter-spacing: 1px;
+  font-size: 2.5em;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 @keyframes popout {
   from {transform:scale(.1)}
   to {transform:scale(1)}
 }
-
-button {
-  /* color: black!important; */
-}
-/* 
-button:hover {
-  background:none !important;
-  color: black!important;
-  outline: none!important;
-  border: none!important;
-  -webkit-tap-highlight-color: transparent!important;
-} */
-
-/* button:active{
-  -webkit-tap-highlight-color: transparent!important;
-  background: rgb(169, 179, 187)!important;
-  animation-delay: .1s;
-  animation-name: popout;
-  animation-duration: .3s;
-  animation-fill-mode: forwards; 
-} */
-  
-button:focus {    
-  background:none !important;
-}  
 
 
 
@@ -382,7 +709,7 @@ button:focus {
 .rc-calendar{
   height: 700px;
   height:auto;
-  /* border: solid rgb(209, 255, 5); */
+
 }
 
 
@@ -396,12 +723,6 @@ button:focus {
   
 }
 
-.hitZone{
-  border: rgb(223, 208, 39) solid ;
-  position: absolute;
-  top:80px;
-  width: 100%;
-}
 
 .rc-calendar-last-month-cell{
   color: rgb(127, 186, 225);
@@ -420,15 +741,7 @@ button:focus {
   box-shadow: inset 0 0 6px #37cc64;
 }
 
-.sidePanel{
-  position: absolute;
-  left: 100%;
-  /* width:100%; */
-  /* padding: 2px 2px 0 2px; */
-  border: solid rgb(120, 161, 177) 1px;
-  border-radius: 5px;
-  background: white;
-}
+
 
 
 ul, li { /* reset the margin and padding */
@@ -452,3 +765,37 @@ li{
 }
 
 
+
+
+/* //////////////// USERSCOMP ETC. */
+
+
+.or{
+  text-align: center;
+  padding: 40px 0px;
+}
+
+.signup{
+  /* white-space: nowrap; */
+  /* position: absolute; */
+  /* border: #000000 solid; */
+  text-align: center;
+  overflow: hidden;
+  resize: none !important;
+
+}
+
+textarea {
+  font-family: 'Montserrat';
+  display: block;
+  border: 1px solid #dedede;
+  border-radius: 4px;
+  padding: 0.75rem;
+  outline: none;
+  background: transparent;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  /* width: 100%;
+  max-width: 100%; */
+  line-height: 1;
+}

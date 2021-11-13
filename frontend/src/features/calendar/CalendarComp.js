@@ -1,11 +1,8 @@
 import React, {useState, useRef, useEffect }from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useLocation } from "react-router-dom";
-import { AddAptForm } from './AddAptForm';
-import { EditAptForm } from './EditAptForm';
-import { EditApptForm } from './editApptForm';
+import { NewAptForm } from './NewAptForm';
 import { DayEvents } from './DayEvents'; 
-
 import { Grid } from '@material-ui/core'
 import {Popout} from './Popout.js'
 import Calendar from 'rc-calendar';
@@ -25,35 +22,34 @@ export const CalendarComp=(props, { history }) => {
     const [month, setmonth] = useState()
     const [loc,setloc] = useState({x:55,y:55})
     const [ShowAddForm, setShowAddForm] = useState(false)
-    const [MonthAppts, setMonthAppts]=useState('DWA')
-    const [uName, setUname]=useState() 
+  
+    const[showdayevents, setshowdayevents]=useState(false)
+
+    const[username, setusername]=useState('')
     
 
 
     const calComp = useRef(null)
     const dispatch = useDispatch()
-    const appts = useSelector(state=>state.appts.appts) || []
+    
     const apptsforMonth = useSelector(state => state.appts.apptsforMonth)
     const location = useLocation();
     const showPopOut = useSelector(state=>state.appts.showPopOut)
-    const loadEditForm = useSelector((state) => state.appts.loadEditForm)
+    
     const openAddAppt = useSelector(state => state.appts.openAddAppt)
-    const opendayEvents = useSelector(state => state.appts.dayEvents)
-
-    const currentDate = useSelector(state=>state.appts.CurrentDate)
-
+    
+   
     const { currentMonth, currentYear, userName } = useSelector(state => state.appts)
 
     /* #endregion */
 
-  /* #region UseEffect*/  
+  /* #region UseEffect*/
+  
+  
   useEffect(() => {  
+   
     dispatch(setUserName(location.state.userName))
   }, [])
-
-  
-// console.log('moment().format(MMM) ',moment().format('MMM'))
-
 
   useEffect(()=>{
     dispatch(setMonthandYear(
@@ -64,97 +60,94 @@ export const CalendarComp=(props, { history }) => {
     ))
   },[])
 
-  useEffect(()=>{
 
-    dispatch(daysWithAppts({
-      userName: userName,
+
+
+  useEffect(()=>{
+setTimeout(()=>dispatch(daysWithAppts({
+      userName: username,
       month: currentMonth,
       year: currentYear,
 
-    }))
+    })) , 500)
+
   },[currentYear])
 
 /* #endregion*/ 
 
 
   const onClickDay= (date)=>{ 
-
     dispatch(setshowPopOut(false))
     dispatch(setopenAddAppt(false))
     dispatch(setCurrentDate(date.format()))
-
-
     dispatch(fetchAppts({
-
-      userName: userName,
+      userName: username,
       datetime: date.format()
-
     })) 
-
-    
+  
     setTimeout(()=>dispatch(setshowPopOut(true)),100) 
+    setshowdayevents(true)
      
   }   
-
+console.log('location.state.userName ', location.state.userName)
   return (
+
     <div className='calDiv'>
-
+            
             {showPopOut ?  
-              <Popout 
-                loc={loc} 
-                month={month} 
-                datenmbr={datenmbr} 
-                ShowAddForm={ShowAddForm}
-                setShowAddForm={setShowAddForm}/>:null} 
+               <Popout 
+                 loc={loc} 
+                 month={month} 
+                 datenmbr={datenmbr} 
+                 ShowAddForm={ShowAddForm}
+                 setShowAddForm={setShowAddForm}/>:null} 
 
-      <Grid container  justifyContent="center"  className='gridContainer'>
+      <Grid container   className='gridContainer'
+        sx={{ justifyContent: 'center' }}
+      >
+        <Grid>{userName}'s calendar</Grid>
    
-
-   
-        <Grid name='calItem' item xs={12} 
+        <Grid name='calItem' item xs={11} 
           ref={calComp} 
           className='calItem' 
           onClick={ // set loc based on mouse loc  turn off showpopout
-              e=>{if (e.clientY > 170 && e.clientY < 315) {
+              e=>{if (e.clientY > 170 && e.clientY < 515) {
               setloc(
-                {x:e.clientX - 40, 
-                y:e.clientY -(calComp.current.getBoundingClientRect().top)-40},
+                {x:e.clientX - 30, 
+                 y:e.clientY -(calComp.current.getBoundingClientRect().top)-25},
               )
               setshowPopOut(false)
             }}
           }
         >
 
-
-
-            <Calendar    className='wincalendar'
+          <Calendar className='wincalendar'
               showToday={false}
-              onSelect={date=>onClickDay(date)}
+              
+              onSelect={date=>{onClickDay(date)}
+              }
+
               disabledDate = {date=>month ? date.format("MMM") !== month : false 
               }
 
               dateRender={(current, value)=>{
 
-                // console.log('current' ,current.format())
-
-                // console.log('apptsforMonth ',apptsforMonth);
-                
-              
-                
                 const date = current.toDate().getDate()
 
-                const timestamp = current.toDate().getTime()
+                // const timestamp = current.toDate().getTime()
+
+             
+            
               
-                const cellstyle = apptsforMonth && apptsforMonth.includes(current.format('D')) ? 'cellstyle cellstyleflagged' : 'cellstyle' 
+                const cellstyle = apptsforMonth && apptsforMonth.includes(
+                  current.format().slice(0,10)) ? 'cellstyle cellstyleflagged' : 'cellstyle' 
             
                 return <div className = {cellstyle} >{date}</div>
 
                 }
               }
 
-              onChange = {(date)=>{ 
-              
-                
+              onChange = {(date)=>{  
                 dispatch(setMonthandYear({
                   month: date.format('MMM'),
                   year: date.format('YYYY')
@@ -163,26 +156,22 @@ export const CalendarComp=(props, { history }) => {
                 setshowPopOut(false)
 
               }}
-            />
+            
+          />
 
         </Grid>
-
-        <Grid name='AddAptForm'item xs={11} >
+        {/* <Grid item xs={3}>{moment(currentDate).format("MMM Do")}</Grid> */}
+        <Grid name='NewAptForm'item xs={12} >
             {openAddAppt ?
-            <AddAptForm clickedDay={clickedDay}/> : null}
+            <NewAptForm clickedDay={clickedDay}/> : null}
         </Grid>
-        
-         
-        <Grid className='dayevents' item xs={12}>
-           
-            <DayEvents/> 
-           
+              
+        <Grid className='dayeventsItem' item xs={12}>
+            {showdayevents ? <DayEvents/> : null}
         </Grid>
-
-      
-      
+  
       </Grid>
-
+      
     </div>
 
   )

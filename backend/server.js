@@ -38,7 +38,10 @@ const createUserAppts =(req, res)=>{
 
   newUserAppts.userName = req.body.userName
 
-  newUserAppts.save()
+  newUserAppts.save().then(savedDoc => {
+    res.send(savedDoc)
+  });
+
 }
 
 const saveAppt = async (req, res)=>{   
@@ -51,55 +54,45 @@ const saveAppt = async (req, res)=>{
     {userName: req.body.userName},(err, user)=>{
   })
 
+ 
+
   if(!currentUserAppts.appts.some(
     appt => appt.datetime === req.body.datetime)) { 
    
-
     currentUserAppts.appts.push(req.body)
 
     currentUserAppts.save()
-  
   }
 
    res.send(req.body)
 }
 
-const daysWithAppts = async (req, res)=>{ 
+const daysWithAppts = async (req, res)=>{  
 
   const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
 
   UserAppts.findOne({userName: req.query.userName},(err, obj)=>{
-   
-    let mnthAppts
-
-  //  if(obj) mnthAppts = obj.appts.filter(
-  //   appt=>appt.month === req.query.month
-  // ).map(appt=>appt.dateNmbr)
-
-
- if(obj){ res.send(
-  obj.appts.filter(appt=>appt.month === req.query.month).map(appt=>appt.datetime)
-  )}
-  
-
-
+    if(obj){ 
+      res.send(
+      obj.appts
+      )}
   })
 }
 
 const fetchAppts = async (req, res)=>{  
-console.log('req ',req.query);
+
 
   const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
 
   UserAppts.findOne({userName: req.query.userName},(err, user)=>{
 
-    console.log('server ',req.query.datetime.slice(0,10))
+    
    
-    res.send(user.appts.filter(appt=>appt.datetime.slice(0,10) === req.query.datetime.slice(0,10)))
-  })
+    if(user){
+      res.send(user.appts.filter(appt=>appt.datetime.slice(0,10) === req.query.datetime.slice(0,10)))
+    }
+    })
 }
-
-
 
 const deleteAppt = (req, res)=>{  
   
@@ -120,23 +113,22 @@ const deleteAppt = (req, res)=>{
 }
 
 const updateAppt = async (req, res)=>{ 
-  console.log('req.body ',req.body.txt );
+  console.log('updateApptreqbody ',req.body )
   
   const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
 
   let appts = await UserAppts.findOneAndUpdate(
 
     {userName:req.body.userName},
-    {$set: {'appts.$[appt].time':req.body.time,
-            'appts.$[appt].apptTxt':req.body.txt
+    {$set: {'appts.$[appt].datetime':req.body.newdatetime,
+            'appts.$[appt].txt':req.body.txt
     
    }},
     // {$set: {'appts.$[appt].txt':req.body.txt }},
-    {arrayFilters: [{ 'appt.date': req.body.date }]}
+    {arrayFilters: [{ 'appt.datetime': req.body.datetime }]}
 
   )
 }
-
 
 const userSchema = new mongoose.Schema({
   _id: String,

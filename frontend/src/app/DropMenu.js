@@ -34,6 +34,10 @@ export default function DropMenu() {
           <MenuItem onClick={handleClose}>Users</MenuItem>
         </Link>
 
+        <Link to={"/textA"}>
+          <MenuItem onClick={handleClose}>textA</MenuItem>
+        </Link>
+
         <MenuItem onClick={handleClose}>Logout</MenuItem>
       </Menu>
     </div>

@@ -10,19 +10,11 @@ export const UsersComp = (props) => {
     let history = useHistory();
     const dispatch = useDispatch()
     const [newusername, setnewusername]=useState()
-    const [username, setusername]=useState()
+    const [loginusername, setloginusername]=useState()
+    const [username, setusername]=useState(' ')
     const [signinmsg, setsigninmsg]=useState()
 
-    useEffect(() => {
-        const loggedInUser = localStorage.getItem("user")
-        // if (loggedInUser) { 
 
-        //     const user = JSON.parse(loggedInUser)
-
-            
-        //     history.push('/cal',{userName:user.userName})
-        // }
-      }, [])
 
     const handleSignIn = async()=>{
  
@@ -33,66 +25,101 @@ export const UsersComp = (props) => {
         else{setsigninmsg('not found')}    
     }
 
-    const handleNewUser =()=>{
-
-        const saveNewUser = async()=> {
+    const handleNewUser =()=>{ console.log('newusername ',newusername);
+    
+    
+    const saveNewUser = async()=> {
         const res = await dispatch(createNewUser({userName:newusername}))
-            return res.payload
-        }
+        return res.payload
+    }
 
         saveNewUser().then(res=>{
-            if(typeof(res) === 'string'){ 
-                alert ('This name in already taken')
-            }else{ 
+            // if(typeof(res) === 'string'){ 
+            //     alert ('This name in already taken')
+            // }else{ 
                 dispatch(createUserAppts(newusername))
                 history.push('/cal',{userName:newusername})
-            }
+            // }
         })
     }
 
+    const [helpertextsignup, sethelpertextsignup]=useState('Sign up with new User Name')
+    const [helpertextlogin, sethelpertextlogin]=useState('Log in with your username')
+    const [clmns, setclmns]=useState(28)
+    const [loginclmns, setloginclmns]=useState(28)
+
+    useEffect(() => {  
+      
+        if(newusername) setclmns(newusername.length)
+        
+      }, [newusername])
 
     return (
-        <Grid container style={{ border: 'pink solid 1px' }}>
+        <Grid container 
+            // sx={{ justifyContent: 'center' }}
+            style={{ 
+            border: 'pink solid 1px', 
+            padding: '20px 0px'
+            }}
+        >
 
-            <Grid name='head' item xs={12}>  
-            
-                <p>Enter Your Vibe</p>
+            <Grid name='signup' item xs={7}
+                style={{textAlign: 'center'}}
+            >
+                <textarea 
+                    className='signup'
+                    cols={clmns} rows='1'
+                    onChange={(e)=>setnewusername(e.target.value)} 
+                    value={loginusername}
+                    placeholder={helpertextsignup}     
+                />   
+                  
+            </Grid>
+
+            <Grid item xs={12} onClick={handleNewUser}
+                
+            >  
+                {newusername && newusername.length > 3 ?
+                    <div className='module-border-wrap'>
+                        <button className='module-button'> 
+                            Save New UserName
+                        </button>
+                    </div> : null
+                }
+            </Grid>
+
+
+            <Grid item xs={12} className='or'>
+                OR
+            </Grid>
+
+            <Grid name='signin' item xs={12}
+             style={{ textAlign: 'center'}}
+            >
+                
+            <textarea 
+                    className='signup'
+                    cols={loginclmns} rows='1'
+                    onChange={(e)=>setloginusername(e.target.value)} 
+                    value={loginusername}
+                    placeholder={helpertextlogin}     
+                />   
                 
             </Grid>
 
-            <Grid name='details' item xs={12}>
-                <textarea onChange={(e)=>setnewusername(e.target.value)} 
-                value={newusername} />   
-            </Grid>
-
-            <Grid name='save appt' item xs={12} onClick={handleNewUser}>  
-                Save Entry
-            </Grid>
-
-            <Grid name='save appt' item xs={12}>
-               
-               <p>Sign in</p>
-              
-            </Grid>
-
-            <Grid name='details' item xs={12}>
+            <Grid item xs={12} onClick={handleNewUser}
                 
-                <textarea onChange={(e)=>{
-                    setusername(e.target.value)
-                    setsigninmsg('')
-                }}
-                
-                value={username} 
-                
-                />
-                
-            </Grid>
-
-            <Grid name='save appt' item xs={6} onClick={handleSignIn}>
-                    
-                Enter
-                    
-            </Grid>
+                >  
+                    {newusername && newusername.length > 3 ?
+                        <div className='module-border-wrap'>
+                            <button className='module-button'> 
+                                Login
+                            </button>
+                        </div> : null
+                    }
+                </Grid>
+    
+    
 
             <Grid>
                 {signinmsg}

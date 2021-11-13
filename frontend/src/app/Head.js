@@ -7,7 +7,7 @@ export const Head=()=>{
    return( 
     <header >
         <DropMenu/>
-        {userName}
+        
     </header>
   
    )

@@ -19,13 +19,7 @@ code {
     monospace;
 }
 
-p {
-  border: rgb(195, 237, 240) 1px solid;
-  font-size: 1.1rem;
-  color: rgb(132, 186, 216);
-  height: 1px;
 
-}
 
 button {
   background: unset !important;
@@ -64,9 +58,7 @@ button:focus{
   border: white;
 }
 
-textarea{
-  height: 10px;
-}
+
 
 .gridContainer{
   padding-top: 5%;

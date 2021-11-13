@@ -30,7 +30,7 @@ const dateNmbr = moment(currentDate).format('D')
          </Grid>
 
 
-         <Grid item xs={7}className='dateNmbrItem' 
+         <Grid item xs={10}className='dateNmbrItem' 
             onClick={()=>dispatch(setshowPopOut(false))}>
             {dateNmbr}
          </Grid> 

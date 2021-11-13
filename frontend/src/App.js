@@ -7,25 +7,43 @@ import {
 } from 'react-router-dom'
 
 import {Head} from './app/Head.js'
-
+import Test from './features/calendar/test.js'
 import {CalendarComp} from './features/calendar/CalendarComp'
 import {UsersComp} from './features/users/UsersComp'
-
+import {EssayForm} from './features/calendar/TextareaComp.js'
 import {LessTest} from './app/LessTest.js'
 
 function App() {
   return (
-  
+
+    
     <Router>
-    <Head/>
+    <Head/> 
 
       <div className="app">
+      
         <Switch>
+          <Route
+            exact path="/test"
+            render={() => (
+              <React.Fragment>
+                <Test/>
+              </React.Fragment>
+            )}/>
+
           <Route
             exact path="/cal"
             render={() => (
               <React.Fragment>
-                <CalendarComp/>     
+                <CalendarComp/>  
+              </React.Fragment>
+            )}/>
+
+          <Route
+            exact path="/textA"
+            render={() => (
+              <React.Fragment>
+                <EssayForm/>  
               </React.Fragment>
             )}/>
        
@@ -38,6 +56,8 @@ function App() {
       </div>
 
     </Router>
+    
+   
    
   )
 }

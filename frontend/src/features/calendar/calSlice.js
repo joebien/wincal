@@ -11,10 +11,12 @@ const initialState = {
 
 export const createUserAppts = createAsyncThunk(
   'cal/createUserAppts',
-  async (initialPost) => {
+  async (initialPost) => { console.log('response.data ')
    
     
     const response = await axios.post('/api/appts/', {userName:initialPost})
+
+    console.log('response.data ', response.data.userName)
 
     return response.data
   }
@@ -23,16 +25,17 @@ export const createUserAppts = createAsyncThunk(
 export const postNewAppt = createAsyncThunk(
 
   'cal/postNewAppt', 
-  async (initialPost) => {   
+  async (apptObj) => {   
+  const response = await axios.post('/api/appts/newAppt', 
+  apptObj)
 
-    console.log('initialPostdatetime ', initialPost.datetime);
-
-    const response = await axios.post('/api/appts/newAppt', 
-    initialPost)
+  console.log('apptObj ',apptObj);
+  console.log('response ',response);
   
     
-    return response.data
-})
+  return apptObj
+  }
+)
 
 export const deleteAppt = createAsyncThunk(
   'cal/deleteAppt', 
@@ -58,7 +61,7 @@ export const editAppt = createAsyncThunk(
 ////////////////////////////////////////////////////////////////////////
 export const fetchAppts = createAsyncThunk('cal/fetchAppts', 
   async (q) => { 
-console.log('q ',q);
+
 
 
 
@@ -73,10 +76,11 @@ console.log('q ',q);
   return response.data
 })
 
+
 export const daysWithAppts = createAsyncThunk( 
   'cal/daysWithAppts', 
-  async (monthApptsQuery) => { 
-  
+  async (monthApptsQuery) => {
+    
     const response = await axios.get('/api/appts/dayswappts', { params: 
       { 
         userName: monthApptsQuery.userName, 
@@ -84,14 +88,13 @@ export const daysWithAppts = createAsyncThunk(
         year: monthApptsQuery.year
       }
     })
-
-    
-
-
+    console.log('response.data ',response.data);
     
 
     return response.data
 })
+
+
 
 export const upDateAppt = createAsyncThunk( 
   'cal/upDateAppt',
@@ -107,9 +110,6 @@ export const upDateAppt = createAsyncThunk(
   }
 
 )
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -146,20 +146,17 @@ const calSlice = createSlice({
   extraReducers: {
 
     [postNewAppt.fulfilled]:(state, action) => {
-
-   
-     
+    
       state.openAddAppt = false
     },
 
 
     [daysWithAppts.fulfilled]:(state, action)=>{ 
-    
-    
-
+    // console.log('daysWithAppts.action.payload ',action.payload)
       state.apptsforMonth=action.payload.map(
-        time=>moment(time).format('D'))
-      },
+        appt=>appt.datetime.slice(0,10))
+    },
+
 
     [editAppt.fulfilled]:(state, action)=>{ 
       let appts = state.appts
@@ -175,7 +172,6 @@ const calSlice = createSlice({
 
     [fetchAppts.fulfilled]: (state, action) => { 
       
-      console.log('action.payload ',action.payload );
     
     //Add any fetched posts to the array
       state.appts = action.payload 

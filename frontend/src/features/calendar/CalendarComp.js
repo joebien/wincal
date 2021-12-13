@@ -23,7 +23,7 @@ export const CalendarComp=(props, { history }) => {
     const [loc,setloc] = useState({x:55,y:55})
     const [ShowAddForm, setShowAddForm] = useState(false)
   
-    const[showdayevents, setshowdayevents]=useState(false)
+    const[showdayevents, setshowdayevents]=useState(true)
 
     const[username, setusername]=useState('')
     
@@ -81,7 +81,7 @@ setTimeout(()=>dispatch(daysWithAppts({
     dispatch(setopenAddAppt(false))
     dispatch(setCurrentDate(date.format()))
     dispatch(fetchAppts({
-      userName: username,
+      userName: userName,
       datetime: date.format()
     })) 
   
@@ -89,8 +89,7 @@ setTimeout(()=>dispatch(daysWithAppts({
     setshowdayevents(true)
      
   }   
-console.log('location.state.userName ', location.state.userName)
-  return (
+return (
 
     <div className='calDiv'>
             
@@ -155,13 +154,11 @@ console.log('location.state.userName ', location.state.userName)
                 
                 setshowPopOut(false)
 
-              }}
-            
-          />
+          }}/>
 
         </Grid>
         {/* <Grid item xs={3}>{moment(currentDate).format("MMM Do")}</Grid> */}
-        <Grid name='NewAptForm'item xs={12} >
+        <Grid className='NewAptForm' item xs={12} >
             {openAddAppt ?
             <NewAptForm clickedDay={clickedDay}/> : null}
         </Grid>

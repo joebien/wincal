@@ -2,8 +2,55 @@
  * https://github.com/arqex/react-datetime
  */
 
- .rdt {
+.rdt {
   position: relative;
+  padding: 0px !important;
+}
+
+
+
+.form-control{
+  /* width: 1200px; */
+  /* height: 60px; */
+  position: relative;
+  /* left: 0px;
+  bottom: 0px; */
+  outline: none !important;
+  border: none !important;
+  background: none !important; 
+  /* font-size:1em;  */
+  /* background: var(--bkrnd) !important; */
+  /* border: dotted rgb(218, 145, 50)  !important; */
+  font: inherit;
+  color: inherit;
+  text-shadow: inherit;
+}
+
+.datepickerinput{
+  width: 80px;
+}
+
+
+
+
+
+
+.rdtPicker {
+  display: none;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  min-width: 350px;
+  padding: 4px;
+  z-index: 99999 !important;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.1);
+  border: 1px solid #f9f9f9;
+  
+}
+
+.rdtOpen {
+  /* background: #fff; */
 }
 
 .rdtOpen .rdtPicker {
@@ -18,7 +65,10 @@
   text-align: center;
 }
 
-
+.rdtPicker table {
+  width: 100%;
+  margin: 0;
+}
 .rdtPicker td,
 .rdtPicker th {
   text-align: center;
@@ -147,29 +197,34 @@ td.rdtYear:hover {
   background: #eee;
 }
 
-
-
-input{
-  -webkit-tap-highlight-color: transparent;
-  border: none !important;
-  outline: none !important;
-
-}
-
-
-
 .rdtCounters {
   display: inline-block;
-  background: white;
 }
 
 .rdtCounters > div {
   float: left;
 }
 
+.rdtCounter:last-child {
+  width: 80px;
+  /* border: dotted pink; */
+}
+
+.rdtCounter {
+  height: 100px;
+  width: 50px;
+}
+
+
+  
+
+
+.rdtCounterSeparator {
+  line-height: 100px;
+}
 
 .rdtCounter .rdtBtn {
- 
+  border: teal;
   height: 40%;
   line-height: 40px;
   cursor: pointer;
@@ -181,13 +236,15 @@ input{
   -moz-user-select: none;      /* Firefox */
   -ms-user-select: none;       /* Internet Explorer/Edge */
   user-select: none;
-
-  -webkit-tap-highlight-color: transparent;
 }
-/* .rdtCounter .rdtBtn:hover {
+.rdtCounter .rdtBtn:hover {
   background: #eee;
-} */
-
+}
+.rdtCounter .rdtCount {
+  height: 30%;
+  font-size: 1.2em;
+  line-height: .8em;
+}
 
 .rdtMilli {
   vertical-align: middle;
@@ -199,69 +256,10 @@ input{
   width: 100%;
   font-size: 1.2em;
   margin-top: 37px;
-  
-}
-
-
-
-/* ///////////////////////////// */
-
-.form-control{
-  width: 80px;
-  height: 40px;
-  border: none !important;
-  background: none !important;
-  /* border: red solid !important; */
-  font-size: 1.2em;
-}
-
-.rdtPicker {
-  display: none;
-  position: absolute;
-  top: -3px;
-  left: 0px;
-  width: 105px !important;
-  height: 60px !important;
-  /* padding: 4px; */
-  margin-top: 1px;
-  z-index: 99999 !important;
-  background: #fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,.1);
-  /* border: red solid; */
  
-}
-
-.rdtCounter {
-  height: 60px;
-  position: relative;
-  top: -10px;
-  width: 30px;
-}
-
-
-
-.rdtCounter .rdtCount {
-  height: 20%;
-  font-size: 1.2em;
-  position: relative;
-  top: 0px;
-}
-
-.rdtCounterSeparator {
-  line-height: 0px;
-  color: white;
 }
 
 .rdtTime td {
   cursor: default;
-  background: white;
-  padding: 0px !important;
-  width: 50px !important;
+  border: #322c3b solid 1px;
 }
-
-
-
-.rdtPicker table {
-  width: 100px;
-  margin: 0;
-} 

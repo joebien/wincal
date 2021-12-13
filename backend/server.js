@@ -154,6 +154,9 @@ const createNewUser = (req, res)=>{
   const User = mongoose.model('user', userSchema )
 
   User.find(req.body, (err,users)=>  {
+
+    console.log('users ',users.length > 0);
+    
   
     if(users.length > 0){  
      

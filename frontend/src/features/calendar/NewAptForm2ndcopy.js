@@ -6,9 +6,15 @@ import { postNewAppt, daysWithAppts} from './calSlice'
 import { fetchAppts }from './calSlice'
 import { setUserName } from './calSlice'
 import moment from 'moment'
+
 import Datetime from 'react-datetime';
+
 import "../../mydatetime.css";
+
 import Timeleft from '../../img/clock.jpg';
+import stripes from '../../img/gunz.jpg'
+
+import {EssayForm} from './TextareaComp.js'
 
 export const NewAptForm = () => {
 
@@ -85,8 +91,9 @@ export const NewAptForm = () => {
         setgraphic(false)
         setselectedtime(true)
         setdatetime( rawCurrentDate.slice(0,11)+ moment(e).format('HH:mm:ss'))
-        settimeWidth(6)
+
     }
+
 
     const txtChange = e => {
         settxt(e.target.value)
@@ -95,81 +102,105 @@ export const NewAptForm = () => {
 
   const [mask, setmask]=useState(false)
   const [selectedtime, setselectedtime]=useState(false)
-  const [timeWidth, settimeWidth]=useState(2)
 
     return (
 
         <Grid container className='addaptform' >
-        
-            <Grid className='datetimeConItem'  container item xs={11} >
-                
-                <Grid item xs={timeWidth}
-                        style={{
-                            // border: 'dotted red',
-                            position: 'relative',
-                            overflow: 'visible'
-                        
-                }}>
-                        
+
+            {/* <Grid name='stripes' item xs={12}>
+                    <img className='stripes' src={stripes}/>
+                    <img className='stripes' src={stripes}/>
+            </Grid>
+             */}
+            <Grid className='datetimeItem' item xs={12} >
+                <div style={{
+                    border: 'dotted red',
+                    position: 'relative'                  
+                }}
+                >
+                    
                     {graphic ?
                         <div className='graphic'>
 
                             <button className='plainbtn'>
                                 <img src={Timeleft}/>
-                            </button>            
+                            </button>
 
-                        {timehelper ? <p>{timehelper}</p> : null}
+                                { timehelper ? <p>{timehelper}</p> : null }
 
-                        </div> : null
+                        </div>
+                        : null
                     }
 
-                        <div className='dateTimeBox' >
+                    <div className='dateTimeBox'>
 
 
-                                < Datetime
+                            < Datetime
+                                inputProps={{
+                                    width: '50px'
+                                    
                                 
-                                    onChange={onTimeChange}
-                                    dateFormat={false}
-                                   
-                                />
-                                </div>
+                                }}
+                                onChange={onTimeChange}
+                                dateFormat={false}
+                                onOpen={
+                                    ()=>setmask(true)
+                                    //()=>console.log('oPen')
+                                }
+                                onClose={
+                                    ()=>setmask(false)
+                                }
+                            />
 
 
-                        
-                </Grid>
+                        </div>
+                </div>
 
-                <Grid item xs className='mdyItem'>
-                    <div className='mdy'>{month}  {dateNmbr} 
-                        `{year}
-                    </div>
-                </Grid>
-       
-            </Grid> 
+                <div className='mdyItem'>
+                    <div className='mdy'>{month}  {dateNmbr} `{year}</div>
+                </div>
+            </Grid>
 
            
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <Grid  className='newAptTxtItem'
-                    container item xs={12}
+                    container item xs={9}
                     onTouchStart={()=>{
                         setspread(false)
                         setspread(true)
 
                     }}
                    
-            >
+                >
 
                     <Grid name='textarea' item xs={12}>
                         <textarea
                             onChange={e=>txtChange(e)}
                             placeholder={txthelper}
                             value={txt}
-                            // rows={txt.split('\n').length}
-                            rows={3}
+                            rows={txt.split('\n').length}
                             cols={22}
                             autoFocus
                         />
                     </Grid>
-
 
                     <Grid name='undrline' item xs={12}>
                         <div  className={spread ? 'apptunder apptunderspread'
@@ -197,7 +228,6 @@ export const NewAptForm = () => {
             </Grid>
 
         </Grid>
-       
 
     )
 }

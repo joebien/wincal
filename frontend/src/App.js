@@ -12,15 +12,18 @@ import {CalendarComp} from './features/calendar/CalendarComp'
 import {UsersComp} from './features/users/UsersComp'
 import {EssayForm} from './features/calendar/TextareaComp.js'
 import {LessTest} from './app/LessTest.js'
+import Appbground from './img/gunz.jpg'
 
 function App() {
   return (
 
     
     <Router>
-    <Head/> 
+      <Head/> 
 
       <div className="app">
+        <img src={Appbground}/>
+       
       
         <Switch>
           <Route

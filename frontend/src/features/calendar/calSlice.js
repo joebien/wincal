@@ -29,8 +29,7 @@ export const postNewAppt = createAsyncThunk(
   const response = await axios.post('/api/appts/newAppt', 
   apptObj)
 
-  console.log('apptObj ',apptObj);
-  console.log('response ',response);
+
   
     
   return apptObj
@@ -62,8 +61,7 @@ export const editAppt = createAsyncThunk(
 export const fetchAppts = createAsyncThunk('cal/fetchAppts', 
   async (q) => { 
 
-
-
+    console.log('fetchappThunk  ',q)
 
     const response = await axios.get('/api/appts/', 
       { params: {
@@ -71,10 +69,9 @@ export const fetchAppts = createAsyncThunk('cal/fetchAppts',
         datetime: q.datetime
       }}
     )
-   
 
   return response.data
-})
+  })
 
 
 export const daysWithAppts = createAsyncThunk( 
@@ -88,8 +85,7 @@ export const daysWithAppts = createAsyncThunk(
         year: monthApptsQuery.year
       }
     })
-    console.log('response.data ',response.data);
-    
+   
 
     return response.data
 })
@@ -172,7 +168,6 @@ const calSlice = createSlice({
 
     [fetchAppts.fulfilled]: (state, action) => { 
       
-    
     //Add any fetched posts to the array
       state.appts = action.payload 
     },

@@ -23,7 +23,6 @@ export const DayEvents=()=>{
                 
                 <AppointmentRow                 
                     key={appt.datetime}
-                    
                     apptTxt={appt.txt}
                     time={moment(appt.datetime).format('HH:mm')}
                     datetime={moment(appt.datetime).format('ddd')}
@@ -36,8 +35,6 @@ export const DayEvents=()=>{
 
    return(        
             <div className='dayevents'>
-                {/* <div className='dayeventsdate'>{moment(currentDate).format("MMM Do")}</div> */}
-                
                 <div className='appts'>{apptsL}</div>
             </div>   
    )
@@ -67,7 +64,7 @@ const AppointmentRow = (props) =>{
     },[])
 
     useEffect(()=>{
-        setfocusheight(txt.split('\n').length * 20 + 'px')
+        setfocusheight(txt.split('\n').length * 34 + 'px')
     },[txt])
 
     const handleSaveEdit = ()=>{console.log('yes')
@@ -94,7 +91,7 @@ const AppointmentRow = (props) =>{
 
     }
   
-    const [focusheight,setfocusheight]=useState('30px')
+    const [focusheight,setfocusheight]=useState('80px')
 
     return (
         <ClickAwayListener onClickAway={ ()=>{
@@ -107,66 +104,68 @@ const AppointmentRow = (props) =>{
             // ()=>setsave(false)
             }>
              
-             <div>
-               
-                <Grid container justifyContent='flex-end' 
-                className = {!selected ? 'AppointmentRow' : 'AppointmentRow selected'} 
-                onClick={()=>setselected(true)}
-             >
-
-                <Grid className='datepickerItem' item xs={3}>    
-                    <div className='dateimeWrap'>      
-                        <Datetime 
-                            value={DPdate}
-                            onChange={setDPdate}
-                            inputProps = {{
-                                placeholder: 'Set Time',
-                                className: 'datepickerinput'                              
-                            }}
-                            dateFormat={false}
-                        />   
-                    </div>                      
-                </Grid> 
- 
-                <Grid item xs={9} className='apptTxtItem' 
-                    onTouchStart={()=>setspread(true)} 
-                >
-                    <div className='apptTxt'>
-
-                        <textarea 
-                                value={txt}
-                                onChange={e=>txtChange(e)}
-                                // onKeyPress={e=>keypress(e)}
-                                // cols="33"
-                                className='appttxtarea' 
-                                style={{'--focusheight':focusheight}}                                  
-                        />                     
-
-
-                        <div className={spread ? 
-                            'apptunder apptunderspread' 
-                            : 'apptunder'}
-                        /> 
-                      
-                    </div>                 
-                </Grid> 
-
-
-                <Grid   item xs={2} onClick={handleSaveEdit}>          
-                    {save ? 
-                    <div className='module-border-wrap'>
-                        <button className='module-button'> 
-                            save 
-                        </button>
-                    </div> : 
-                        null 
-                    }
-                </Grid>
-
-
             
-            </Grid>  
-            </div>
+                <Grid container justifyContent='flex-end' 
+                    className = 'AppointmentRow'
+                >
+
+                    <Grid className='datepickerItem' item xs={3}>    
+                        <div className='dateimeWrap'>      
+                            <Datetime 
+                                value={DPdate}
+                                onChange={setDPdate}
+                                inputProps = {{
+                                    placeholder: 'Set Time',
+                                    className: 'datepickerinput'                              
+                                }}
+                                dateFormat={false}
+                            />   
+                        </div>                      
+                    </Grid> 
+                    <Grid item xs={1}
+                        style={{
+                            // border: 'red dotted 1px',
+                            fontSize: '.7em',
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}
+                    > 
+                    &#9898; </Grid>
+                    <Grid item xs={8} className='apptTxtItem' 
+                        onTouchStart={()=>setspread(true)} 
+                    >
+                        <div className='apptTxt'>
+
+                            <textarea 
+                                    // cols={13}
+                                    value={txt}
+                                    onChange={e=>txtChange(e)}                          
+                                    className='appttxtarea' 
+                                    style={{'--focusheight':focusheight}}                                  
+                            />                     
+
+
+                            <div className={spread ? 
+                                'apptunder apptunderspread' 
+                                : 'apptunder'}
+                            /> 
+                        
+                        </div>                 
+                    </Grid> 
+
+                    <Grid   item xs={2} onClick={handleSaveEdit}>          
+                        {save ? 
+                        <div className='module-border-wrap'>
+                            <button className='module-button'> 
+                                save 
+                            </button>
+                        </div> : 
+                            null 
+                        }
+                    </Grid>
+            
+                </Grid>  
+            
        </ClickAwayListener>   
     )   
  }

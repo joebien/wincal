@@ -1,2 +1,2 @@
 # wincal
-appointment app
+Simple appointment/calendar app using redux, node server, and mongodb.

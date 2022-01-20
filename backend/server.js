@@ -2,12 +2,9 @@ import path from 'path'
 import express from 'express'
 // const bodyParser= require('body-parser')
 import dotenv from 'dotenv'
-import helmet from 'helmet'
-import colors from 'colors'
-import morgan from 'morgan'
-import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+
 import connectDB from './config/db.js'
-import userRoutes from './routes/userRoutes.js'
+
 import mongoose from 'mongoose'
 
 dotenv.config()
@@ -68,6 +65,7 @@ const saveAppt = async (req, res)=>{
 }
 
 const daysWithAppts = async (req, res)=>{  
+
 
   const UserAppts = mongoose.model('UserAppts', UserApptsSchema)
 
@@ -151,6 +149,9 @@ const signInUser = (req, res)=>{
 
 const createNewUser = (req, res)=>{
 
+  console.log('createNewUser')
+  
+
   const User = mongoose.model('user', userSchema )
 
   User.find(req.body, (err,users)=>  {
@@ -182,7 +183,7 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 app.use(express.json())
-app.use(helmet())
+
 
 app.post('/api/users/', createNewUser)
 
@@ -203,7 +204,7 @@ app.delete('/api/delappt', deleteAppt)
 
 app.put('/api/appts/updateAppt', updateAppt)
 
-app.use('/api/users', userRoutes)
+
 
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
@@ -220,9 +221,7 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-app.use(notFound)
 
-app.use(errorHandler)
 
 // const PORT = process.env.PORT || 4000
 
@@ -231,7 +230,7 @@ const PORT = 4000
 app.listen(
   PORT,
   console.log(
-    `Server running ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
+    `Server running ${process.env.NODE_ENV} mode on port ${PORT}`
   )
 )
 

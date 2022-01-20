@@ -26,6 +26,9 @@ export const signInUser = createAsyncThunk(
 export const createNewUser = createAsyncThunk( 
   'users/createNewUser', 
   async (initialPost) => { 
+    
+    console.log('createNewUser ')
+
   const response = await axios.post('/api/users/ ',initialPost)
   return response.data
 })

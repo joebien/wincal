@@ -28,7 +28,8 @@ export const UsersComp = (props) => {
     const handleNewUser =()=>{ console.log('newusername ',newusername);
     
     
-        const saveNewUser = async()=> {
+        const saveNewUser = async()=> { console.log('saveNewUser')
+        
             const res = await dispatch(createNewUser({userName:newusername}))
             return res.payload
         }
